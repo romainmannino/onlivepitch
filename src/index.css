@@ -1,0 +1,339 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    background: #000000;
+    color: #ffffff;
+    font-family: system-ui, -apple-system, sans-serif;
+  }
+}
+
+@layer utilities {
+  .border-gradient {
+    background: linear-gradient(45deg, #3B82F6, #EC4899, #8B5CF6);
+    background-size: 400% 400%;
+    animation: gradientShift 3s ease-in-out infinite;
+    padding: 2px;
+    border-radius: 9999px;
+  }
+  
+  .border-gradient::after {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    background: #000000;
+    border-radius: 9999px;
+    z-index: -1;
+  }
+  
+  @keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  /* Scroll animations */
+  .fade-in-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .fade-in-up.animate {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .fade-in-left {
+    opacity: 0;
+    transform: translateX(-50px);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .fade-in-left.animate {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .fade-in-right {
+    opacity: 0;
+    transform: translateX(50px);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .fade-in-right.animate {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .scale-in {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .scale-in.animate {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .blur-to-focus {
+    filter: blur(10px);
+    opacity: 0.3;
+    transform: scale(0.95);
+    transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .blur-to-focus.animate {
+    filter: blur(0px);
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .stagger-1 {
+    transition-delay: 0.1s;
+  }
+
+  .stagger-2 {
+    transition-delay: 0.2s;
+  }
+
+  .stagger-3 {
+    transition-delay: 0.3s;
+  }
+
+  .stagger-4 {
+    transition-delay: 0.4s;
+  }
+
+  .parallax-slow {
+    transform: translateY(0);
+    transition: transform 0.1s ease-out;
+  }
+
+  /* Hover effects enhancement */
+  .hover-lift {
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Text reveal animation */
+  .text-reveal {
+    overflow: hidden;
+    position: relative;
+  }
+
+  .text-reveal::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.8s ease-in-out;
+  }
+
+  .text-reveal.animate::before {
+    transform: translateX(100%);
+  }
+}
+
+@media print {
+  * {
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+    font-size: 12pt;
+    line-height: 1.4;
+  }
+
+  nav {
+    display: none !important;
+  }
+
+  footer {
+    display: none !important;
+  }
+
+  section {
+    page-break-before: always !important;
+    page-break-after: always !important;
+    page-break-inside: avoid !important;
+    min-height: 100vh !important;
+    padding: 2rem !important;
+    margin: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+  }
+
+  section:first-of-type {
+    page-break-before: auto !important;
+  }
+
+  /* Preserve backgrounds and colors */
+  .bg-black {
+    background: #000000 !important;
+    color: white !important;
+  }
+
+  .bg-gradient-to-br {
+    background: #f8fafc !important;
+    color: black !important;
+  }
+
+  .text-white {
+    color: white !important;
+  }
+
+  .text-black {
+    color: black !important;
+  }
+
+  .text-gray-300 {
+    color: #d1d5db !important;
+  }
+
+  .text-gray-700 {
+    color: #374151 !important;
+  }
+
+  .text-gray-800 {
+    color: #1f2937 !important;
+  }
+
+  /* Gradient text fallback */
+  .bg-gradient-to-r {
+    background: linear-gradient(to right, #2563eb, #ec4899, #8b5cf6) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+  }
+
+  /* Ensure images print */
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* Grid layouts for print */
+  .grid {
+    display: grid !important;
+  }
+
+  .md\\:grid-cols-2 {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .md\\:grid-cols-3 {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+
+  /* Spacing adjustments */
+  .space-y-8 > * + * {
+    margin-top: 2rem !important;
+  }
+
+  .space-y-6 > * + * {
+    margin-top: 1.5rem !important;
+  }
+
+  .gap-8 {
+    gap: 2rem !important;
+  }
+
+  .gap-6 {
+    gap: 1.5rem !important;
+  }
+
+  /* Typography */
+  h1, h2 {
+    font-size: 24pt !important;
+    font-weight: bold !important;
+    margin-bottom: 1rem !important;
+  }
+
+  h3 {
+    font-size: 18pt !important;
+    font-weight: bold !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  p {
+    margin-bottom: 1rem !important;
+  }
+
+  /* Borders and backgrounds */
+  .border {
+    border: 1px solid #d1d5db !important;
+  }
+
+  .rounded-2xl, .rounded-xl {
+    border-radius: 1rem !important;
+  }
+
+  .bg-white\\/80 {
+    background: rgba(255, 255, 255, 0.9) !important;
+  }
+
+  .bg-black\\/70 {
+    background: rgba(0, 0, 0, 0.8) !important;
+  }
+
+  /* Hide mobile menu and contact form for print */
+  .lg\\:hidden {
+    display: none !important;
+  }
+
+  /* Contact section - make it fit on one page */
+  section:last-of-type {
+    min-height: auto !important;
+  }
+
+  /* Ensure print button works on all devices */
+  button {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Force print dialog on all browsers */
+  @media print {
+    button {
+      display: none !important;
+    }
+    
+    /* Ensure all content is printable */
+    * {
+      -webkit-print-color-adjust: exact !important;
+      color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    
+    /* Fix any overflow issues */
+    body, html {
+      overflow: visible !important;
+    }
+    
+    /* Ensure proper page breaks */
+    section {
+      page-break-inside: avoid !important;
+    }
+  }
+}
