@@ -234,10 +234,36 @@ function App() {
               <h3 className="text-2xl font-bold text-center mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                 Romain Mannino
               </h3>
-              <p className="text-gray-700 text-center leading-relaxed">
-                Responsable commercial dans l'industrie du vélo, 20 ans d'expérience dans le commerce B2B, 
-                visionnaire et entrepreneur dans l'âme.
-              </p>
+              <ul className="text-gray-700 space-y-2 text-sm">
+                <li className="flex items-start space-x-2">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <span>40 ans</span>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <span>Marié, 2 enfants</span>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <span>Propriétaire d'une maison à Jonage</span>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <span>Gérant d'une SCI avec 2 locaux commerciaux</span>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <span>Responsable commercial dans l'industrie du vélo</span>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <span>20 ans d'expérience dans le commerce B2B</span>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <span>Visionnaire et entrepreneur dans l'âme</span>
+                </li>
+              </ul>
             </div>
 
             <div className="bg-white/80 backdrop-blur-sm p-8 rounded-2xl border border-gray-300 hover:border-pink-500/50 transition-colors duration-300 shadow-xl fade-in-right stagger-2 hover-lift">
@@ -251,10 +277,36 @@ function App() {
               <h3 className="text-2xl font-bold text-center mb-4 bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
                 Mickaël Jacob
               </h3>
-              <p className="text-gray-700 text-center leading-relaxed">
-                Stratégie & Commercial, l'un des meilleurs commerciaux de son réseau : 
-                persuasif, fédérateur, esprit d'analyse
-              </p>
+              <ul className="text-gray-700 space-y-2 text-sm">
+                <li className="flex items-start space-x-2">
+                  <div className="w-2 h-2 bg-pink-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <span>40 ans</span>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <div className="w-2 h-2 bg-pink-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <span>Marié, 2 enfants</span>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <div className="w-2 h-2 bg-pink-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <span>Propriétaire d'une maison à Jonage</span>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <div className="w-2 h-2 bg-pink-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <span>20 ans d'expérience dans le commerce B2C</span>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <div className="w-2 h-2 bg-pink-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <span>Stratégie & Commercial</span>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <div className="w-2 h-2 bg-pink-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <span>L'un des meilleurs commerciaux de son réseau</span>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <div className="w-2 h-2 bg-pink-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <span>Persuasif, fédérateur, esprit d'analyse</span>
+                </li>
+              </ul>
             </div>
           </div>
 
