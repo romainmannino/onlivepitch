@@ -520,18 +520,105 @@ function App() {
       <section id="business" className="py-20 px-4 relative overflow-hidden bg-black">
         <div className="max-w-7xl mx-auto">
           <h2 className="relative z-10 text-5xl font-bold text-center mb-16 bg-gradient-to-r from-blue-600 via-pink-600 to-purple-600 bg-clip-text text-transparent fade-in-up">
-            Business Model
+            Business Model & Exit
           </h2>
           
-          <div className="relative z-10 max-w-4xl mx-auto space-y-8">
-            <div className="bg-white/80 backdrop-blur-sm p-8 rounded-2xl border border-gray-300 shadow-xl fade-in-up stagger-1 hover-lift">
-              <h3 className="text-2xl font-bold text-blue-600 mb-4 flex items-center">
-                <TrendingUp className="w-6 h-6 mr-3" />
-                Publicité & partenariats médias
+          <div className="relative z-10 max-w-6xl mx-auto space-y-12">
+            {/* Sources de revenus */}
+            <div className="bg-white/10 backdrop-blur-sm p-8 rounded-2xl border border-gray-600 shadow-xl fade-in-up stagger-1 hover-lift">
+              <h3 className="text-3xl font-bold text-white mb-6 flex items-center">
+                <DollarSign className="w-8 h-8 mr-3 text-yellow-400" />
+                💰 Sources de revenus (dès 500k → 5M téléchargements)
               </h3>
-              <p className="text-gray-700 leading-relaxed">
-                À partir de 50k users actifs, (2500 groupes de 20 personnes en moyenne) 
-                l'appli devient attractive pour des annonceurs.
+              
+              <div className="grid md:grid-cols-2 gap-8">
+                {/* Publicité */}
+                <div className="bg-blue-900/40 backdrop-blur-sm border border-blue-500 p-6 rounded-xl fade-in-left stagger-2 hover-lift">
+                  <h4 className="text-2xl font-bold text-blue-400 mb-4">1. Publicité</h4>
+                  <p className="text-blue-200 mb-3">(bandeaux & interstitiels)</p>
+                  <div className="space-y-2 text-white">
+                    <p>• CPM moyen 2–5 €</p>
+                    <p className="text-lg font-semibold text-blue-300">~5 M€ de CA/an à 2,5M utilisateurs actifs</p>
+                  </div>
+                </div>
+
+                {/* Data Insights */}
+                <div className="bg-purple-900/40 backdrop-blur-sm border border-purple-500 p-6 rounded-xl fade-in-right stagger-3 hover-lift">
+                  <h4 className="text-2xl font-bold text-purple-400 mb-4">2. Data Insights</h4>
+                  <p className="text-purple-200 mb-3">(émotions & engagement TV en temps réel)</p>
+                  <div className="space-y-2 text-white">
+                    <p>• Valeur : 1–5 €/utilisateur actif/an</p>
+                    <p className="text-lg font-semibold text-purple-300">2,5 à 12,5 M€/an</p>
+                    <p className="text-sm text-purple-200">(contrats avec TF1, M6, Canal+, Amazon, etc.)</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Potentiel global */}
+            <div className="bg-gradient-to-r from-green-900/40 via-emerald-900/40 to-teal-900/40 backdrop-blur-sm border border-green-500 p-8 rounded-2xl text-center fade-in-up stagger-4 hover-lift">
+              <h3 className="text-3xl font-bold text-green-400 mb-4">📈 Potentiel global à 5M téléchargements (2,5M actifs)</h3>
+              <p className="text-4xl font-bold text-white">👉 10–20 M€/CA annuel</p>
+            </div>
+
+            {/* Exit Strategy */}
+            <div className="bg-gradient-to-r from-red-900/40 via-orange-900/40 to-yellow-900/40 backdrop-blur-sm border border-red-500 p-8 rounded-2xl fade-in-up stagger-5 hover-lift">
+              <h3 className="text-3xl font-bold text-red-400 mb-6 flex items-center justify-center">
+                🚪 Option de sortie stratégique (Exit)
+              </h3>
+              
+              <p className="text-xl text-white mb-6 text-center">
+                Dès 5M téléchargements, ONLIVE devient une cible naturelle de rachat par :
+              </p>
+              
+              <div className="grid md:grid-cols-3 gap-6 mb-8">
+                <div className="bg-black/50 p-4 rounded-xl text-center">
+                  <h4 className="text-lg font-bold text-blue-400 mb-2">Médias</h4>
+                  <p className="text-white">TF1, M6, Canal+</p>
+                </div>
+                <div className="bg-black/50 p-4 rounded-xl text-center">
+                  <h4 className="text-lg font-bold text-purple-400 mb-2">Streaming</h4>
+                  <p className="text-white">Amazon Prime, Netflix</p>
+                </div>
+                <div className="bg-black/50 p-4 rounded-xl text-center">
+                  <h4 className="text-lg font-bold text-pink-400 mb-2">Tech & réseaux sociaux</h4>
+                  <p className="text-white">Meta, TikTok</p>
+                </div>
+              </div>
+              
+              <div className="bg-black/60 p-6 rounded-xl mb-6">
+                <h4 className="text-xl font-bold text-yellow-400 mb-4">Pourquoi ?</h4>
+                <ul className="space-y-2 text-white">
+                  <li className="flex items-start space-x-2">
+                    <div className="w-2 h-2 bg-yellow-400 rounded-full mt-2 flex-shrink-0"></div>
+                    <span>Audience massive & engagée</span>
+                  </li>
+                  <li className="flex items-start space-x-2">
+                    <div className="w-2 h-2 bg-yellow-400 rounded-full mt-2 flex-shrink-0"></div>
+                    <span>Données émotionnelles temps réel uniques</span>
+                  </li>
+                  <li className="flex items-start space-x-2">
+                    <div className="w-2 h-2 bg-yellow-400 rounded-full mt-2 flex-shrink-0"></div>
+                    <span>Complément direct à Médiamétrie (panel de 5000 foyers vs millions d'utilisateurs)</span>
+                  </li>
+                </ul>
+              </div>
+              
+              <div className="bg-gradient-to-r from-green-600/30 to-emerald-600/30 p-6 rounded-xl">
+                <h4 className="text-xl font-bold text-green-400 mb-4">Valorisation de sortie estimée :</h4>
+                <div className="space-y-2 text-white mb-4">
+                  <p>• CA projeté 10–20 M€</p>
+                  <p>• Multiple 5–10x (standard media/data tech)</p>
+                </div>
+                <p className="text-3xl font-bold text-green-300 text-center">👉 50 à 200 M€</p>
+              </div>
+            </div>
+
+            {/* Accroche finale */}
+            <div className="bg-gradient-to-r from-blue-600/20 via-pink-600/20 to-purple-600/20 backdrop-blur-sm p-8 rounded-2xl border border-gray-500 text-center scale-in stagger-6 hover-lift">
+              <p className="text-2xl font-bold text-white leading-relaxed">
+                « ONLIVE = Médiamétrie 2.0 émotionnelle + WhatsApp TV social.<br />
+                Un business scalable, et une cible évidente de rachat stratégique dès 5M de téléchargements. »
               </p>
             </div>
 
