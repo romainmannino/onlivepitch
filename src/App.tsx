@@ -888,7 +888,7 @@ function App() {
                 
                 <div className="bg-gradient-to-r from-purple-800/60 to-indigo-800/60 p-6 rounded-xl border border-purple-600 text-center">
                   <h4 className="text-lg font-bold text-purple-200 mb-2">Email</h4>
-                  <p className="text-purple-300 font-semibold text-lg">📧 onlivetv@gmail.com</p>
+                  <p className="text-purple-300 font-semibold text-lg">onlivetvapp@gmail.com</p>
                 </div>
               </div>
               
