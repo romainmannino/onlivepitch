@@ -317,7 +317,7 @@ function App() {
             <div className="grid md:grid-cols-2 gap-8">
               <div>
                 <ul className="space-y-3 text-gray-700">
-                  <li className="flex items-start space-x-3 fade-in-left stagger-4">
+                <p className="text-gray-300">onlivetvapp@gmail.com</p>
                     <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
                     <span>Inventeurs et Premiers en Europe à lancer des plaques NFC/QR de partage social</span>
                   </li>
