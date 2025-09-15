@@ -703,8 +703,8 @@ function App() {
       {/* Image entre stratégie et story telling */}
       <div className="w-full fade-in-up">
         <img 
-          src="https://gqclmjeeiwoqrphcbipg.supabase.co/storage/v1/object/public/pitch/regarde%20the%20voice.png" 
-          alt="Regarder The Voice"
+          src="https://gqclmjeeiwoqrphcbipg.supabase.co/storage/v1/object/public/logo/Design%20sans%20titre%20(31).png" 
+          alt="OnLive TV Experience" 
           className="w-full h-auto object-cover"
         />
       </div>
