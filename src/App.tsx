@@ -124,9 +124,9 @@ function App() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-3">
               <img 
-                src="https://gqclmjeeiwoqrphcbipg.supabase.co/storage/v1/object/public/pitch/Copie%20de%20On%20Live%20(3).png" 
-                alt="OnLive Logo"
-                className="h-12 w-auto"
+                src="https://gqclmjeeiwoqrphcbipg.supabase.co/storage/v1/object/public/logo/Design%20sans%20titre%20(30).png" 
+                alt="OnLive" 
+                className="h-12 w-auto object-contain"
               />
             </div>
             
