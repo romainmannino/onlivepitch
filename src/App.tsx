@@ -276,7 +276,7 @@ function App() {
               <h3 className="text-3xl font-bold text-white mb-6">Le Problème Central</h3>
               <p className="text-xl text-gray-300 leading-relaxed">
                 <strong className="text-red-400">73% des téléspectateurs</strong> déclarent se sentir seuls en regardant leurs programmes préférés, 
-                particulièrement lors d'événements sportifs ou d'émissions en direct. Cette solitude numérique affecte 
+                particulièrement lors d'événements sportifs ou d\'émissions en direct. Cette solitude numérique affecte 
                 <strong className="text-orange-400"> plus de 2,8 milliards</strong> de personnes dans le monde.
               </p>
             </div>
