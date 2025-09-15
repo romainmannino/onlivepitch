@@ -193,7 +193,7 @@ function App() {
             <img 
               src="https://gqclmjeeiwoqrphcbipg.supabase.co/storage/v1/object/public/logo/Design%20sans%20titre%20(30).png" 
               alt="OnLive Logo"
-              className="h-24 w-auto"
+              className="h-72 w-auto"
             />
           </div>
           <p className="text-4xl md:text-5xl font-light text-gray-300 mb-12 fade-in-up stagger-2">
