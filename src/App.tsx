@@ -909,8 +909,8 @@ function App() {
           <div className="flex items-center justify-center mb-6">
             <img 
               src="https://gqclmjeeiwoqrphcbipg.supabase.co/storage/v1/object/public/logo/Design%20sans%20titre%20(30).png" 
-              alt="OnLive Logo"
-              className="h-36 w-auto object-contain"
+              alt="OnLive"
+              className="h-8 w-auto object-contain"
             />
           </div>
           <p className="text-gray-300 mb-4">"You'll never watch alone"</p>
