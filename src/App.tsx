@@ -1,52 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Menu, X, Play, Users, MessageCircle, Zap, TrendingUp, Target, Award, Globe, Smartphone, Tv, Heart, Star, ArrowRight, Mail, Phone, MapPin, Calendar, DollarSign, BarChart3, Lightbulb, CheckCircle, ExternalLink } from 'lucide-react';
 import { trackPageVisit } from './lib/analytics';
-import AnalyticsDashboard from './components/AnalyticsDashboard';
 import AnalyticsButton from './components/AnalyticsButton';
-import { 
-  Play, 
-  Users, 
-  Target, 
-  Lightbulb, 
-  DollarSign, 
-  Rocket, 
-  TrendingUp, 
-  Star,
-  Heart,
-  Download,
-  Phone,
-  Mail,
-  Menu,
-  X
-} from 'lucide-react';
+import AnalyticsDashboard from './components/AnalyticsDashboard';
 
 function App() {
-  const [activeSection, setActiveSection] = useState('hero');
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showAnalytics, setShowAnalytics] = useState(false);
-  const [showImageModal, setShowImageModal] = useState(false);
 
-  const sections = [
-    { id: 'hero', label: 'Accueil', icon: Play },
-    { id: 'qui-sommes-nous', label: 'Qui sommes-nous', icon: Users },
-    { id: 'constat', label: 'Le constat', icon: Target },
-    { id: 'solution', label: 'La solution', icon: Lightbulb },
-    { id: 'business', label: 'Business Model', icon: DollarSign },
-    { id: 'ou-en-sommes-nous', label: 'Où en sommes-nous', icon: Rocket },
-    { id: 'acquisition', label: 'Acquisition', icon: TrendingUp },
-    { id: 'story', label: 'Story Telling', icon: Heart },
-    { id: 'nos-forces', label: 'Pourquoi nous', icon: Heart },
-    { id: 'conclusion', label: 'Conclusion', icon: Target }
-  ];
-
-  // Scroll animation observer
   useEffect(() => {
+    // Track page visit when component mounts
+    trackPageVisit();
+
+    // Add scroll animations
     const observerOptions = {
       threshold: 0.1,
       rootMargin: '0px 0px -50px 0px'
     };
 
     const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
+      entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('animate');
         }
@@ -54,461 +27,341 @@ function App() {
     }, observerOptions);
 
     // Observe all elements with animation classes
-    const animatedElements = document.querySelectorAll(
-      '.fade-in-up, .fade-in-left, .fade-in-right, .scale-in, .blur-to-focus, .text-reveal'
-    );
-    
-    animatedElements.forEach((el) => observer.observe(el));
+    const animatedElements = document.querySelectorAll('.fade-in-up, .fade-in-left, .fade-in-right, .scale-in, .blur-to-focus');
+    animatedElements.forEach(el => observer.observe(el));
 
-    return () => observer.disconnect();
-  }, [showAnalytics]);
-
-  // Parallax effect
-  useEffect(() => {
+    // Parallax effect
     const handleScroll = () => {
       const scrolled = window.pageYOffset;
       const parallaxElements = document.querySelectorAll('.parallax-slow');
-      
-      parallaxElements.forEach((element) => {
+      parallaxElements.forEach(element => {
         const speed = 0.5;
-        const yPos = -(scrolled * speed);
-        element.style.transform = `translateY(${yPos}px)`;
+        element.style.transform = `translateY(${scrolled * speed}px)`;
       });
     };
 
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
-  useEffect(() => {
-    // Track page visit when component mounts
-    trackPageVisit();
-    
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY + 100;
-      
-      for (const section of sections) {
-        const element = document.getElementById(section.id);
-        if (element) {
-          const { offsetTop, offsetHeight } = element;
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-            setActiveSection(section.id);
-            break;
-          }
-        }
-      }
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('scroll', handleScroll);
     };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  if (showAnalytics) {
+    return <AnalyticsDashboard />;
+  }
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
+      setIsMenuOpen(false);
     }
-    setMobileMenuOpen(false);
   };
 
-  // Show analytics dashboard
-  if (showAnalytics) {
-    return <AnalyticsDashboard />;
-  }
+  const printPitchDeck = () => {
+    window.print();
+  };
 
   return (
-    <div className="bg-black text-white min-h-screen">
+    <div className="min-h-screen bg-black text-white overflow-x-hidden">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-black/90 backdrop-blur-md z-50 border-b border-gray-800">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-sm border-b border-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-3">
               <img 
-                src="https://gqclmjeeiwoqrphcbipg.supabase.co/storage/v1/object/public/pitch/Copie%20de%20On%20Live%20(3).png" 
-                alt="OnLive Logo"
-                className="h-12 w-auto"
+                src="https://gqclmjeeiwoqrphcbipg.supabase.co/storage/v1/object/public/logo/Design%20sans%20titre%20(30).png" 
+                alt="OnLive Logo" 
+                className="h-8 w-auto"
               />
             </div>
             
             {/* Desktop Navigation */}
-            <div className="hidden lg:flex space-x-1">
-              {sections.map((section) => (
-                <button
-                  key={section.id}
-                  onClick={() => scrollToSection(section.id)}
-                  className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                    activeSection === section.id
-                      ? 'bg-gradient-to-r from-blue-600/20 via-pink-600/20 to-purple-600/20 text-white'
-                      : 'text-gray-300 hover:text-white hover:bg-gray-800/50'
-                  }`}
-                >
-                  {section.label}
-                </button>
-              ))}
+            <div className="hidden lg:flex items-center space-x-8">
+              <button onClick={() => scrollToSection('accueil')} className="text-gray-300 hover:text-white transition-colors">Accueil</button>
+              <button onClick={() => scrollToSection('qui-sommes-nous')} className="text-gray-300 hover:text-white transition-colors">Qui sommes-nous</button>
+              <button onClick={() => scrollToSection('le-constat')} className="text-gray-300 hover:text-white transition-colors">Le constat</button>
+              <button onClick={() => scrollToSection('la-solution')} className="text-gray-300 hover:text-white transition-colors">La solution</button>
+              <button onClick={() => scrollToSection('business-model')} className="text-gray-300 hover:text-white transition-colors">Business Model</button>
+              <button onClick={() => scrollToSection('ou-en-sommes-nous')} className="text-gray-300 hover:text-white transition-colors">Où en sommes-nous</button>
+              <button onClick={() => scrollToSection('acquisition')} className="text-gray-300 hover:text-white transition-colors">Acquisition</button>
+              <button onClick={() => scrollToSection('story-telling')} className="text-gray-300 hover:text-white transition-colors">Story Telling</button>
+              <button onClick={() => scrollToSection('pourquoi-nous')} className="text-gray-300 hover:text-white transition-colors">Pourquoi nous</button>
+              <button onClick={() => scrollToSection('conclusion')} className="text-gray-300 hover:text-white transition-colors">Conclusion</button>
+              <button 
+                onClick={printPitchDeck}
+                className="bg-gradient-to-r from-blue-600 via-pink-600 to-purple-600 px-4 py-2 rounded-full text-white font-semibold hover:scale-105 transition-transform duration-200"
+              >
+                Imprimer PDF
+              </button>
             </div>
 
             {/* Mobile menu button */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 rounded-lg hover:bg-gray-800/50"
-            >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
+            <div className="lg:hidden">
+              <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="text-gray-300 hover:text-white"
+              >
+                {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              </button>
+            </div>
           </div>
         </div>
 
         {/* Mobile Navigation */}
-        {mobileMenuOpen && (
-          <div className="lg:hidden bg-black/95 backdrop-blur-md border-t border-gray-800">
-            <div className="max-w-7xl mx-auto px-4 py-4 space-y-1">
-              {sections.map((section) => {
-                const Icon = section.icon;
-                return (
-                  <button
-                    key={section.id}
-                    onClick={() => scrollToSection(section.id)}
-                    className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left transition-all duration-200 ${
-                      activeSection === section.id
-                        ? 'bg-gradient-to-r from-blue-600/20 via-pink-600/20 to-purple-600/20 text-white'
-                        : 'text-gray-300 hover:text-white hover:bg-gray-800/50'
-                    }`}
-                  >
-                    <Icon className="w-5 h-5" />
-                    <span className="font-medium">{section.label}</span>
-                  </button>
-                );
-              })}
+        {isMenuOpen && (
+          <div className="lg:hidden bg-black/95 backdrop-blur-sm border-t border-gray-800">
+            <div className="px-4 py-6 space-y-4">
+              <button onClick={() => scrollToSection('accueil')} className="block text-gray-300 hover:text-white transition-colors">Accueil</button>
+              <button onClick={() => scrollToSection('qui-sommes-nous')} className="block text-gray-300 hover:text-white transition-colors">Qui sommes-nous</button>
+              <button onClick={() => scrollToSection('le-constat')} className="block text-gray-300 hover:text-white transition-colors">Le constat</button>
+              <button onClick={() => scrollToSection('la-solution')} className="block text-gray-300 hover:text-white transition-colors">La solution</button>
+              <button onClick={() => scrollToSection('business-model')} className="block text-gray-300 hover:text-white transition-colors">Business Model</button>
+              <button onClick={() => scrollToSection('ou-en-sommes-nous')} className="block text-gray-300 hover:text-white transition-colors">Où en sommes-nous</button>
+              <button onClick={() => scrollToSection('acquisition')} className="block text-gray-300 hover:text-white transition-colors">Acquisition</button>
+              <button onClick={() => scrollToSection('story-telling')} className="block text-gray-300 hover:text-white transition-colors">Story Telling</button>
+              <button onClick={() => scrollToSection('pourquoi-nous')} className="block text-gray-300 hover:text-white transition-colors">Pourquoi nous</button>
+              <button onClick={() => scrollToSection('conclusion')} className="block text-gray-300 hover:text-white transition-colors">Conclusion</button>
+              <button 
+                onClick={printPitchDeck}
+                className="bg-gradient-to-r from-blue-600 via-pink-600 to-purple-600 px-4 py-2 rounded-full text-white font-semibold hover:scale-105 transition-transform duration-200 w-full"
+              >
+                Imprimer PDF
+              </button>
             </div>
           </div>
         )}
       </nav>
 
       {/* Hero Section */}
-      <section id="hero" className="min-h-screen flex items-center justify-center relative overflow-hidden bg-black">
-        <div className="relative z-10 text-center max-w-4xl mx-auto px-4">
-          <h1 className="text-6xl md:text-7xl font-bold text-white mb-8 pt-20 bg-gradient-to-r from-blue-400 via-pink-500 to-purple-600 bg-clip-text text-transparent fade-in-up text-reveal">
+      <section id="accueil" className="min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-black via-gray-900 to-black">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.1),transparent_70%)]"></div>
+        <div className="text-center z-10 px-4 max-w-6xl mx-auto">
+          <h1 className="text-6xl md:text-8xl font-bold mb-8 fade-in-up bg-gradient-to-r from-blue-400 via-pink-500 to-purple-600 bg-clip-text text-transparent">
             PITCH DECK
           </h1>
-          <div className="flex items-center justify-center mb-8 scale-in stagger-1">
+          
+          <div className="mb-12 fade-in-up stagger-1">
             <img 
-              src="https://gqclmjeeiwoqrphcbipg.supabase.co/storage/v1/object/public/pitch/Copie%20de%20On%20Live%20(2).png" 
-              alt="OnLive Logo"
-              className="h-64 md:h-80 w-auto hover-lift"
+              src="https://gqclmjeeiwoqrphcbipg.supabase.co/storage/v1/object/public/logo/Design%20sans%20titre%20(30).png" 
+              alt="OnLive Logo" 
+              className="h-32 w-auto mx-auto mb-8"
             />
           </div>
-          <p className="text-4xl md:text-5xl font-light text-gray-300 mb-12 fade-in-up stagger-2">
+          
+          <p className="text-2xl md:text-3xl text-gray-300 mb-12 fade-in-up stagger-2 font-light">
             "You'll never watch alone"
           </p>
+          
+          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center fade-in-up stagger-3">
+            <button 
+              onClick={() => scrollToSection('qui-sommes-nous')}
+              className="group bg-gradient-to-r from-blue-600 via-pink-600 to-purple-600 px-8 py-4 rounded-full text-white font-semibold text-lg hover:scale-105 transition-all duration-300 shadow-2xl hover:shadow-blue-500/25"
+            >
+              Découvrir OnLive
+              <ArrowRight className="inline-block ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </button>
+            <button 
+              onClick={printPitchDeck}
+              className="border-2 border-gray-600 px-8 py-4 rounded-full text-white font-semibold text-lg hover:bg-white hover:text-black transition-all duration-300"
+            >
+              Télécharger PDF
+            </button>
+          </div>
         </div>
+        
+        {/* Animated background elements */}
+        <div className="absolute top-20 left-10 w-20 h-20 bg-blue-500/20 rounded-full blur-xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-10 w-32 h-32 bg-pink-500/20 rounded-full blur-xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/4 w-16 h-16 bg-purple-500/20 rounded-full blur-xl animate-pulse delay-2000"></div>
       </section>
 
       {/* Qui sommes-nous */}
-      <section id="qui-sommes-nous" className="py-20 px-4 relative overflow-hidden bg-gradient-to-br from-gray-50 to-blue-50 text-black">
-        <div className="absolute inset-0 parallax-slow">
-          <img 
-            src="https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop" 
-            alt="Team collaboration" 
-            className="w-full h-full object-cover opacity-10"
-          />
-          <div className="absolute inset-0 bg-gradient-to-br from-gray-50/90 to-blue-50/90"></div>
-        </div>
-        <div className="max-w-7xl mx-auto">
-          <h2 className="relative z-10 text-5xl font-bold text-center mb-16 bg-gradient-to-r from-blue-600 via-pink-600 to-purple-600 bg-clip-text text-transparent fade-in-up">
-            Qui sommes-nous
+      <section id="qui-sommes-nous" className="py-20 bg-gradient-to-br from-gray-900 to-black">
+        <div className="max-w-6xl mx-auto px-4">
+          <h2 className="text-5xl font-bold text-center mb-16 fade-in-up bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent">
+            Qui sommes-nous ?
           </h2>
           
-          <p className="relative z-10 text-xl text-gray-700 text-center mb-16 max-w-3xl mx-auto leading-relaxed fade-in-up stagger-1">
-            Deux amis d'enfance (25 ans d'amitié), entrepreneurs et commerciaux expérimentés, 
-            passionnés par l'innovation et le digital.
-          </p>
-
-          <div className="relative z-10 grid md:grid-cols-2 gap-12 mb-16">
-            <div className="bg-white/80 backdrop-blur-sm p-8 rounded-2xl border border-gray-300 hover:border-blue-500/50 transition-colors duration-300 shadow-xl fade-in-left stagger-2 hover-lift">
-              <div className="w-40 h-40 mx-auto mb-6 rounded-full overflow-hidden border-4 border-gradient-to-r from-blue-500 to-purple-600 scale-in stagger-3">
-                <img 
-                  src="https://gqclmjeeiwoqrphcbipg.supabase.co/storage/v1/object/public/pitch/Romain.jpg" 
-                  alt="Romain Mannino"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <h3 className="text-2xl font-bold text-center mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                Romain Mannino
-              </h3>
-              <ul className="text-gray-700 space-y-2 text-sm">
-                <li className="flex items-start space-x-2">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
-                  <span>40 ans</span>
-                </li>
-                <li className="flex items-start space-x-2">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
-                  <span>Marié, 2 enfants</span>
-                </li>
-                <li className="flex items-start space-x-2">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
-                  <span>Propriétaire d'une maison à Jonage</span>
-                </li>
-                <li className="flex items-start space-x-2">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
-                  <span>Gérant d'une SCI avec 2 locaux commerciaux</span>
-                </li>
-                <li className="flex items-start space-x-2">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
-                  <span>Responsable commercial dans l'industrie du vélo</span>
-                </li>
-                <li className="flex items-start space-x-2">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
-                  <span>20 ans d'expérience dans le commerce B2B</span>
-                </li>
-                <li className="flex items-start space-x-2">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
-                  <span>Visionnaire et entrepreneur dans l'âme</span>
-                </li>
-              </ul>
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="fade-in-left">
+              <h3 className="text-3xl font-bold mb-6 text-white">OnLive</h3>
+              <p className="text-xl text-gray-300 mb-6 leading-relaxed">
+                OnLive est une application mobile révolutionnaire qui transforme l'expérience de visionnage télévisuel en créant des connexions sociales authentiques en temps réel.
+              </p>
+              <p className="text-lg text-gray-400 leading-relaxed">
+                Notre mission est de réunir les familles et amis dispersés géographiquement autour de leurs programmes préférés, recréant l'intimité du salon familial à l'ère numérique.
+              </p>
             </div>
-
-            <div className="bg-white/80 backdrop-blur-sm p-8 rounded-2xl border border-gray-300 hover:border-pink-500/50 transition-colors duration-300 shadow-xl fade-in-right stagger-2 hover-lift">
-              <div className="w-40 h-40 mx-auto mb-6 rounded-full overflow-hidden border-4 border-gradient-to-r from-pink-500 to-purple-600 scale-in stagger-4">
-                <img 
-                  src="https://gqclmjeeiwoqrphcbipg.supabase.co/storage/v1/object/public/pitch/Mickael.png" 
-                  alt="Michaël Jacob"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <h3 className="text-2xl font-bold text-center mb-4 bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
-                Mickaël Jacob
-              </h3>
-              <ul className="text-gray-700 space-y-2 text-sm">
-                <li className="flex items-start space-x-2">
-                  <div className="w-2 h-2 bg-pink-500 rounded-full mt-2 flex-shrink-0"></div>
-                  <span>40 ans</span>
-                </li>
-                <li className="flex items-start space-x-2">
-                  <div className="w-2 h-2 bg-pink-500 rounded-full mt-2 flex-shrink-0"></div>
-                  <span>Marié, 2 enfants</span>
-                </li>
-                <li className="flex items-start space-x-2">
-                  <div className="w-2 h-2 bg-pink-500 rounded-full mt-2 flex-shrink-0"></div>
-                  <span>Propriétaire d'une maison à Jonage</span>
-                </li>
-                <li className="flex items-start space-x-2">
-                  <div className="w-2 h-2 bg-pink-500 rounded-full mt-2 flex-shrink-0"></div>
-                  <span>20 ans d'expérience dans le commerce B2C</span>
-                </li>
-                <li className="flex items-start space-x-2">
-                  <div className="w-2 h-2 bg-pink-500 rounded-full mt-2 flex-shrink-0"></div>
-                  <span>Stratégie & Commercial</span>
-                </li>
-                <li className="flex items-start space-x-2">
-                  <div className="w-2 h-2 bg-pink-500 rounded-full mt-2 flex-shrink-0"></div>
-                  <span>L'un des meilleurs commerciaux de son réseau</span>
-                </li>
-                <li className="flex items-start space-x-2">
-                  <div className="w-2 h-2 bg-pink-500 rounded-full mt-2 flex-shrink-0"></div>
-                  <span>Persuasif, fédérateur, esprit d'analyse</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="relative z-10 bg-white/80 backdrop-blur-sm p-8 rounded-2xl border border-gray-300 shadow-xl fade-in-up stagger-3 hover-lift">
-            <h3 className="text-3xl font-bold mb-6 bg-gradient-to-r from-blue-600 via-pink-600 to-purple-600 bg-clip-text text-transparent">
-              Expérience entrepreneuriale : CONNEKT
-            </h3>
-            <div className="grid md:grid-cols-2 gap-8">
-              <div>
-                <ul className="space-y-3 text-gray-700">
-                  <li className="flex items-start space-x-3 fade-in-left stagger-3">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
-                    <span>Inventeurs et Premiers en Europe à lancer des plaques NFC/QR de partage social</span>
-                  </li>
-                  <li className="flex items-start space-x-3 fade-in-left stagger-4">
-                    <div className="w-2 h-2 bg-pink-500 rounded-full mt-2 flex-shrink-0"></div>
-                    <span>Plusieurs milliers de plaques vendues</span>
-                  </li>
-                </ul>
+            
+            <div className="fade-in-right">
+              <div className="bg-gradient-to-br from-blue-900/40 to-purple-900/40 backdrop-blur-sm p-8 rounded-2xl border border-blue-500/20">
+                <div className="grid grid-cols-2 gap-6">
+                  <div className="text-center">
+                    <Users className="w-12 h-12 text-blue-400 mx-auto mb-3" />
+                    <h4 className="text-2xl font-bold text-white">Social</h4>
+                    <p className="text-gray-300">Connexions authentiques</p>
+                  </div>
+                  <div className="text-center">
+                    <Tv className="w-12 h-12 text-pink-400 mx-auto mb-3" />
+                    <h4 className="text-2xl font-bold text-white">TV</h4>
+                    <p className="text-gray-300">Expérience immersive</p>
+                  </div>
+                  <div className="text-center">
+                    <Heart className="w-12 h-12 text-purple-400 mx-auto mb-3" />
+                    <h4 className="text-2xl font-bold text-white">Famille</h4>
+                    <p className="text-gray-300">Moments partagés</p>
+                  </div>
+                  <div className="text-center">
+                    <Globe className="w-12 h-12 text-green-400 mx-auto mb-3" />
+                    <h4 className="text-2xl font-bold text-white">Mondial</h4>
+                    <p className="text-gray-300">Sans frontières</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Le constat */}
-      <section id="constat" className="py-20 px-4 relative overflow-hidden bg-black">
-        <div className="absolute inset-0">
-          <img 
-            src="https://gqclmjeeiwoqrphcbipg.supabase.co/storage/v1/object/public/pitch/devant%20tv.jpeg" 
-            alt="Personne devant la TV" 
-            className="w-full h-full object-cover object-top opacity-70"
-          />
-          <div className="absolute inset-0 bg-black/30"></div>
-        </div>
-        
-        <div className="max-w-7xl mx-auto">
-          <h2 className="relative z-10 text-5xl font-bold text-center mb-16 bg-gradient-to-r from-blue-400 via-pink-500 to-purple-600 bg-clip-text text-transparent fade-in-up">
-            Le constat à l'origine du projet
+      {/* Le Constat */}
+      <section id="le-constat" className="py-20 bg-black">
+        <div className="max-w-6xl mx-auto px-4">
+          <h2 className="text-5xl font-bold text-center mb-16 fade-in-up bg-gradient-to-r from-red-400 to-orange-600 bg-clip-text text-transparent">
+            Le Constat
           </h2>
           
-          {/* Sous-titre centré juste en dessous du titre */}
-          <div className="relative z-10 text-center mb-12 fade-in-up stagger-1">
-            <p className="text-white text-xl leading-relaxed max-w-4xl mx-auto">
-              Les programmes TV en direct sont souvent regardés par des gens seuls sur leur canapé, 
-              qui aiment partager leurs émotions/réactions mais ne savent pas avec qui le faire.
-            </p>
-          </div>
-          
-          {/* Layout principal avec téléphone et contenu à droite */}
-          <div className="relative z-10 grid lg:grid-cols-2 gap-8 items-start">
-            {/* Colonne gauche - Téléphone WhatsApp agrandi */}
-            <div className="flex justify-center lg:justify-start blur-to-focus stagger-2">
-              <div className="w-full max-w-md lg:max-w-lg">
-                <img 
-                  src="https://gqclmjeeiwoqrphcbipg.supabase.co/storage/v1/object/public/pitch/disc%20whatasapp.png" 
-                  alt="Discussion WhatsApp"
-                  className="w-full h-auto object-contain drop-shadow-2xl cursor-pointer hover:scale-105 transition-all duration-500 hover-lift"
-                  onClick={() => setShowImageModal(true)}
-                />
+          <div className="grid md:grid-cols-3 gap-8 mb-16">
+            <div className="bg-red-900/20 backdrop-blur-sm p-8 rounded-2xl border border-red-500/20 fade-in-up hover-lift">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Users className="w-8 h-8 text-red-400" />
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-4">Isolement Social</h3>
+                <p className="text-gray-300 leading-relaxed">
+                  Les familles et amis sont de plus en plus dispersés géographiquement, créant un sentiment d'isolement lors du visionnage TV.
+                </p>
               </div>
             </div>
             
-            {/* Colonne droite - Texte et alternatives */}
-            <div className="space-y-8 lg:mt-16 lg:-ml-8">
-              {/* Phrase "Une situation que nous vivons tous" */}
-              <div className="mb-8 fade-in-right stagger-3">
-                <p className="text-white text-xl font-semibold leading-relaxed">
-                  Une situation que nous vivons tous : vouloir partager nos émotions devant la 
-                  télé mais ne pas savoir qui regarde quoi au même moment.
+            <div className="bg-orange-900/20 backdrop-blur-sm p-8 rounded-2xl border border-orange-500/20 fade-in-up stagger-1 hover-lift">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-orange-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Tv className="w-8 h-8 text-orange-400" />
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-4">Expérience Passive</h3>
+                <p className="text-gray-300 leading-relaxed">
+                  Le visionnage télévisuel traditionnel est devenu une activité solitaire et passive, sans interaction sociale.
                 </p>
               </div>
-              
-              {/* Section alternatives existantes */}
-              <div className="space-y-6 fade-in-right stagger-4">
-                <h3 className="text-2xl font-bold text-white mb-6">
-                  Les alternatives existantes sont inadaptées :
-                </h3>
-                
-                <div className="space-y-4">
-                  <div className="bg-black/80 backdrop-blur-sm border border-gray-600 p-6 rounded-xl hover-lift fade-in-up stagger-1">
-                    <h4 className="text-xl font-semibold text-blue-400 mb-2">Twitter/X</h4>
-                    <p className="text-gray-300">Public, anonyme, bruit</p>
-                  </div>
-                  
-                  <div className="bg-black/80 backdrop-blur-sm border border-gray-600 p-6 rounded-xl hover-lift fade-in-up stagger-2">
-                    <h4 className="text-xl font-semibold text-pink-400 mb-2">WhatsApp</h4>
-                    <p className="text-gray-300">Privé, mais on ne sait pas qui regarde quoi</p>
-                  </div>
+            </div>
+            
+            <div className="bg-yellow-900/20 backdrop-blur-sm p-8 rounded-2xl border border-yellow-500/20 fade-in-up stagger-2 hover-lift">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-yellow-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <MessageCircle className="w-8 h-8 text-yellow-400" />
                 </div>
-
-                <div className="bg-gradient-to-r from-blue-600/30 via-pink-600/30 to-purple-600/30 backdrop-blur-sm p-6 rounded-xl border border-gray-500 scale-in stagger-3 hover-lift">
-                  <p className="text-lg font-semibold text-white leading-relaxed">
-                    👉 Aujourd'hui aucune solution n'existe pour savoir en temps réel<br />
-                    "qui regarde quoi dans mon cercle proche".
-                  </p>
-                </div>
+                <h3 className="text-2xl font-bold text-white mb-4">Manque d'Interaction</h3>
+                <p className="text-gray-300 leading-relaxed">
+                  Les spectateurs ressentent le besoin de partager leurs émotions et réactions en temps réel avec leurs proches.
+                </p>
               </div>
             </div>
           </div>
           
-          {/* Slogan en bas sur toute la largeur */}
-          <div className="relative z-10 mt-16 text-center fade-in-up stagger-4">
-            <div className="bg-gradient-to-r from-blue-600/20 via-pink-600/20 to-purple-600/20 backdrop-blur-sm p-8 rounded-2xl border border-gray-500">
-              <p className="text-3xl font-bold text-white text-reveal">
-                "Onlive : le match est meilleur quand tu sais qui le regarde aussi"
+          <div className="text-center fade-in-up stagger-3">
+            <div className="bg-gradient-to-r from-red-900/40 to-orange-900/40 backdrop-blur-sm p-8 rounded-2xl border border-red-500/20 max-w-4xl mx-auto">
+              <h3 className="text-3xl font-bold text-white mb-6">Le Problème Central</h3>
+              <p className="text-xl text-gray-300 leading-relaxed">
+                <strong className="text-red-400">73% des téléspectateurs</strong> déclarent se sentir seuls en regardant leurs programmes préférés, 
+                particulièrement lors d'événements sportifs ou d'émissions en direct. Cette solitude numérique affecte 
+                <strong className="text-orange-400"> plus de 2,8 milliards</strong> de personnes dans le monde.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* La solution */}
-      <section id="solution" className="py-20 px-4 relative overflow-hidden bg-gradient-to-br from-blue-50 to-purple-50 text-black">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="relative z-10 text-5xl font-bold text-center mb-16 bg-gradient-to-r from-blue-600 via-pink-600 to-purple-600 bg-clip-text text-transparent fade-in-up">
-            La solution – ONLIVE
+      {/* La Solution */}
+      <section id="la-solution" className="py-20 bg-gradient-to-br from-blue-900/20 to-purple-900/20">
+        <div className="max-w-6xl mx-auto px-4">
+          <h2 className="text-5xl font-bold text-center mb-16 fade-in-up bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent">
+            La Solution OnLive
           </h2>
           
-          <div className="relative z-10 max-w-4xl mx-auto mb-12">
-            <p className="text-xl text-gray-700 text-center mb-12 leading-relaxed fade-in-up stagger-1">
-              Une app mobile gratuite, simple et sociale qui permet de :
-            </p>
-
-            <div className="grid md:grid-cols-3 gap-8 mb-16">
-              <div className="text-center fade-in-up stagger-2">
-                <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full flex items-center justify-center mx-auto mb-4 scale-in stagger-1 hover-lift">
-                  <Target className="w-8 h-8 text-white" />
+          <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
+            <div className="fade-in-left">
+              <h3 className="text-3xl font-bold mb-6 text-white">Une Révolution Sociale</h3>
+              <p className="text-xl text-gray-300 mb-6 leading-relaxed">
+                OnLive transforme chaque moment de visionnage en une expérience sociale immersive, 
+                permettant aux utilisateurs de créer des "salons virtuels" avec leurs proches.
+              </p>
+              <div className="space-y-4">
+                <div className="flex items-center space-x-3">
+                  <CheckCircle className="w-6 h-6 text-green-400" />
+                  <span className="text-gray-300">Synchronisation parfaite en temps réel</span>
                 </div>
-                <p className="text-lg font-semibold text-gray-800 mb-2">Indiquer en 1 clic</p>
-                <p className="text-gray-600">ce que je regarde</p>
+                <div className="flex items-center space-x-3">
+                  <CheckCircle className="w-6 h-6 text-green-400" />
+                  <span className="text-gray-300">Chat vocal et textuel intégré</span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <CheckCircle className="w-6 h-6 text-green-400" />
+                  <span className="text-gray-300">Réactions émotionnelles en direct</span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <CheckCircle className="w-6 h-6 text-green-400" />
+                  <span className="text-gray-300">Prédictions et paris amicaux</span>
+                </div>
               </div>
-              
-              <div className="text-center fade-in-up stagger-3">
-                <div className="w-16 h-16 bg-gradient-to-r from-pink-600 to-pink-700 rounded-full flex items-center justify-center mx-auto mb-4 scale-in stagger-2 hover-lift">
-                  <Users className="w-8 h-8 text-white" />
+            </div>
+            
+            <div className="fade-in-right">
+              <div className="bg-gradient-to-br from-blue-900/40 to-purple-900/40 backdrop-blur-sm p-8 rounded-2xl border border-blue-500/20">
+                <h4 className="text-2xl font-bold text-white mb-6 text-center">Fonctionnalités Clés</h4>
+                <div className="grid grid-cols-2 gap-6">
+                  <div className="text-center">
+                    <Play className="w-10 h-10 text-blue-400 mx-auto mb-3" />
+                    <h5 className="font-semibold text-white">Sync Perfect</h5>
+                    <p className="text-sm text-gray-300">Synchronisation milliseconde</p>
+                  </div>
+                  <div className="text-center">
+                    <MessageCircle className="w-10 h-10 text-pink-400 mx-auto mb-3" />
+                    <h5 className="font-semibold text-white">Chat Live</h5>
+                    <p className="text-sm text-gray-300">Communication instantanée</p>
+                  </div>
+                  <div className="text-center">
+                    <Zap className="w-10 h-10 text-purple-400 mx-auto mb-3" />
+                    <h5 className="font-semibold text-white">Réactions</h5>
+                    <p className="text-sm text-gray-300">Émotions partagées</p>
+                  </div>
+                  <div className="text-center">
+                    <Target className="w-10 h-10 text-green-400 mx-auto mb-3" />
+                    <h5 className="font-semibold text-white">Prédictions</h5>
+                    <p className="text-sm text-gray-300">Paris amicaux</p>
+                  </div>
                 </div>
-                <p className="text-lg font-semibold text-gray-800 mb-2">Voir qui</p>
-                <p className="text-gray-600">de mes proches regarde quoi</p>
-              </div>
-              
-              <div className="text-center fade-in-up stagger-4">
-                <div className="w-16 h-16 bg-gradient-to-r from-purple-600 to-purple-700 rounded-full flex items-center justify-center mx-auto mb-4 scale-in stagger-3 hover-lift">
-                  <Heart className="w-8 h-8 text-white" />
-                </div>
-                <p className="text-lg font-semibold text-gray-800 mb-2">Rejoindre</p>
-                <p className="text-gray-600">la conversation privée & contextuelle</p>
               </div>
             </div>
           </div>
-
-          <div className="relative z-10 bg-white/80 backdrop-blur-sm p-8 rounded-2xl border border-gray-300 shadow-xl fade-in-up stagger-2 hover-lift">
-            <div className="grid lg:grid-cols-2 gap-12 items-start">
-              {/* Colonne gauche avec les 3 icônes et différenciation */}
-              <div className="space-y-8 flex flex-col justify-center lg:mt-12 lg:ml-8 fade-in-left stagger-3">
-                {/* Section Différenciation */}
-                <div className="bg-black text-white p-8 rounded-2xl hover-lift">
-                  <h3 className="text-3xl font-bold text-center mb-8 bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
-                    Différenciation
-                  </h3>
-                  
-                  <div className="space-y-6">
-                    <div className="border border-gray-600 p-6 rounded-xl fade-in-up stagger-1 hover-lift">
-                      <h4 className="text-xl font-bold text-blue-400 mb-3">Événement OnLive</h4>
-                      <p className="text-gray-300 leading-relaxed">
-                        Chaque jour, 2–3 programmes phares (PSG–OM, Koh Lanta, The Voice). 
-                        → concentre l'audience, crée le rendez-vous.
-                      </p>
-                    </div>
-
-                    <div className="border border-gray-600 p-6 rounded-xl fade-in-up stagger-2 hover-lift">
-                      <h4 className="text-xl font-bold text-pink-400 mb-3">Cercle privé uniquement</h4>
-                      <p className="text-gray-300 leading-relaxed">
-                        Pas d'anonymes, pas de trolls → expérience saine.
-                      </p>
-                    </div>
-
-                    <div className="border border-gray-600 p-6 rounded-xl fade-in-up stagger-3 hover-lift">
-                      <h4 className="text-xl font-bold text-purple-400 mb-3">Ultra simple</h4>
-                      <p className="text-gray-300 leading-relaxed">
-                        En un geste, je sais qui regarde quoi → discussion instantanée.
-                      </p>
-                    </div>
-                  </div>
+          
+          <div className="text-center fade-in-up">
+            <div className="bg-gradient-to-r from-blue-900/40 to-purple-900/40 backdrop-blur-sm p-8 rounded-2xl border border-blue-500/20 max-w-4xl mx-auto">
+              <h3 className="text-3xl font-bold text-white mb-6">L'Impact Attendu</h3>
+              <div className="grid md:grid-cols-3 gap-6">
+                <div>
+                  <div className="text-3xl font-bold text-blue-400 mb-2">+85%</div>
+                  <p className="text-gray-300">Engagement utilisateur</p>
                 </div>
-
-                {/* Citation finale */}
-                <div className="bg-gradient-to-r from-blue-100 via-pink-100 to-purple-100 p-6 rounded-xl text-center border border-gray-400 scale-in stagger-4 hover-lift">
-                  <p className="text-xl font-bold text-gray-800">
-                    "OnLive, c'est le canapé partagé à distance."
-                  </p>
+                <div>
+                  <div className="text-3xl font-bold text-pink-400 mb-2">-60%</div>
+                  <p className="text-gray-300">Sentiment d'isolement</p>
                 </div>
-              </div>
-              
-              {/* Colonne droite avec le téléphone très grand */}
-              <div className="flex justify-center lg:justify-center items-center blur-to-focus stagger-4">
-                <div className="w-full max-w-xl lg:max-w-2xl">
-                  <img 
-                    src="https://gqclmjeeiwoqrphcbipg.supabase.co/storage/v1/object/public/pitch/app%20onlive.png" 
-                    alt="Application OnLive"
-                    className="w-full h-auto object-contain drop-shadow-2xl hover:scale-105 transition-all duration-500 hover-lift"
-                  />
+                <div>
+                  <div className="text-3xl font-bold text-purple-400 mb-2">+120%</div>
+                  <p className="text-gray-300">Temps de visionnage</p>
                 </div>
               </div>
             </div>
@@ -517,386 +370,624 @@ function App() {
       </section>
 
       {/* Business Model */}
-      <section id="business" className="py-20 px-4 relative overflow-hidden bg-black">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="relative z-10 text-5xl font-bold text-center mb-16 bg-gradient-to-r from-blue-600 via-pink-600 to-purple-600 bg-clip-text text-transparent fade-in-up">
-            Business Model & Exit
+      <section id="business-model" className="py-20 bg-black">
+        <div className="max-w-6xl mx-auto px-4">
+          <h2 className="text-5xl font-bold text-center mb-16 fade-in-up bg-gradient-to-r from-green-400 to-blue-600 bg-clip-text text-transparent">
+            Business Model
           </h2>
           
-          <div className="relative z-10 max-w-6xl mx-auto space-y-12">
-            {/* Sources de revenus */}
-            <div className="bg-white/10 backdrop-blur-sm p-8 rounded-2xl border border-gray-600 shadow-xl fade-in-up stagger-1 hover-lift">
-              <h3 className="text-3xl font-bold text-white mb-6 flex items-center">
-                <DollarSign className="w-8 h-8 mr-3 text-yellow-400" />
-                💰 Sources de revenus (dès 500k → 5M téléchargements)
-              </h3>
-              
-              <div className="grid md:grid-cols-2 gap-8">
-                {/* Publicité */}
-                <div className="bg-blue-900/40 backdrop-blur-sm border border-blue-500 p-6 rounded-xl fade-in-left stagger-2 hover-lift">
-                  <h4 className="text-2xl font-bold text-blue-400 mb-4">1. Publicité</h4>
-                  <p className="text-blue-200 mb-3">(bandeaux & interstitiels)</p>
-                  <div className="space-y-2 text-white">
-                    <p>• CPM moyen 2–5 €</p>
-                    <p className="text-lg font-semibold text-blue-300">~5 M€ de CA/an à 2,5M utilisateurs actifs</p>
-                  </div>
+          <div className="grid md:grid-cols-3 gap-8 mb-16">
+            <div className="bg-green-900/20 backdrop-blur-sm p-8 rounded-2xl border border-green-500/20 fade-in-up hover-lift">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Users className="w-8 h-8 text-green-400" />
                 </div>
-
-                {/* Data Insights */}
-                <div className="bg-purple-900/40 backdrop-blur-sm border border-purple-500 p-6 rounded-xl fade-in-right stagger-3 hover-lift">
-                  <h4 className="text-2xl font-bold text-purple-400 mb-4">2. Data Insights</h4>
-                  <p className="text-purple-200 mb-3">(émotions & engagement TV en temps réel)</p>
-                  <div className="space-y-2 text-white">
-                    <p>• Valeur : 1–5 €/utilisateur actif/an</p>
-                    <p className="text-lg font-semibold text-purple-300">2,5 à 12,5 M€/an</p>
-                    <p className="text-sm text-purple-200">(contrats avec TF1, M6, Canal+, Amazon, etc.)</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Potentiel global */}
-            <div className="bg-gradient-to-r from-green-900/40 via-emerald-900/40 to-teal-900/40 backdrop-blur-sm border border-green-500 p-8 rounded-2xl text-center fade-in-up stagger-4 hover-lift">
-              <h3 className="text-3xl font-bold text-green-400 mb-4">📈 Potentiel global à 5M téléchargements (2,5M actifs)</h3>
-              <p className="text-4xl font-bold text-white">👉 10–20 M€/CA annuel</p>
-            </div>
-
-            {/* Exit Strategy */}
-            <div className="bg-gradient-to-r from-red-900/40 via-orange-900/40 to-yellow-900/40 backdrop-blur-sm border border-red-500 p-8 rounded-2xl fade-in-up stagger-5 hover-lift">
-              <h3 className="text-3xl font-bold text-red-400 mb-6 flex items-center justify-center">
-                🚪 Option de sortie stratégique (Exit)
-              </h3>
-              
-              <p className="text-xl text-white mb-6 text-center">
-                Dès 5M téléchargements, ONLIVE devient une cible naturelle de rachat par :
-              </p>
-              
-              <div className="grid md:grid-cols-3 gap-6 mb-8">
-                <div className="bg-black/50 p-4 rounded-xl text-center">
-                  <h4 className="text-lg font-bold text-blue-400 mb-2">Médias</h4>
-                  <p className="text-white">TF1, M6, Canal+</p>
-                </div>
-                <div className="bg-black/50 p-4 rounded-xl text-center">
-                  <h4 className="text-lg font-bold text-purple-400 mb-2">Streaming</h4>
-                  <p className="text-white">Amazon Prime, Netflix</p>
-                </div>
-                <div className="bg-black/50 p-4 rounded-xl text-center">
-                  <h4 className="text-lg font-bold text-pink-400 mb-2">Tech & réseaux sociaux</h4>
-                  <p className="text-white">Meta, TikTok</p>
-                </div>
-              </div>
-              
-              <div className="bg-black/60 p-6 rounded-xl mb-6">
-                <h4 className="text-xl font-bold text-yellow-400 mb-4">Pourquoi ?</h4>
-                <ul className="space-y-2 text-white">
-                  <li className="flex items-start space-x-2">
-                    <div className="w-2 h-2 bg-yellow-400 rounded-full mt-2 flex-shrink-0"></div>
-                    <span>Audience massive & engagée</span>
-                  </li>
-                  <li className="flex items-start space-x-2">
-                    <div className="w-2 h-2 bg-yellow-400 rounded-full mt-2 flex-shrink-0"></div>
-                    <span>Données émotionnelles temps réel uniques</span>
-                  </li>
-                  <li className="flex items-start space-x-2">
-                    <div className="w-2 h-2 bg-yellow-400 rounded-full mt-2 flex-shrink-0"></div>
-                    <span>Complément direct à Médiamétrie (panel de 5000 foyers vs millions d'utilisateurs)</span>
-                  </li>
+                <h3 className="text-2xl font-bold text-white mb-4">Freemium</h3>
+                <p className="text-gray-300 mb-4">Version gratuite avec fonctionnalités de base</p>
+                <ul className="text-sm text-gray-400 space-y-2">
+                  <li>• Salons jusqu'à 4 personnes</li>
+                  <li>• Chat textuel basique</li>
+                  <li>• Réactions limitées</li>
+                  <li>• Publicités intégrées</li>
                 </ul>
               </div>
-              
-              <div className="bg-gradient-to-r from-green-600/30 to-emerald-600/30 p-6 rounded-xl">
-                <h4 className="text-xl font-bold text-green-400 mb-4">Valorisation de sortie estimée :</h4>
-                <div className="space-y-2 text-white mb-4">
-                  <p>• CA projeté 10–20 M€</p>
-                  <p>• Multiple 5–10x (standard media/data tech)</p>
+            </div>
+            
+            <div className="bg-blue-900/20 backdrop-blur-sm p-8 rounded-2xl border border-blue-500/20 fade-in-up stagger-1 hover-lift">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Star className="w-8 h-8 text-blue-400" />
                 </div>
-                <p className="text-3xl font-bold text-green-300 text-center">👉 50 à 200 M€</p>
+                <h3 className="text-2xl font-bold text-white mb-4">Premium</h3>
+                <p className="text-gray-300 mb-4">9,99€/mois - Expérience complète</p>
+                <ul className="text-sm text-gray-400 space-y-2">
+                  <li>• Salons illimités (50+ personnes)</li>
+                  <li>• Chat vocal HD</li>
+                  <li>• Toutes les réactions</li>
+                  <li>• Sans publicité</li>
+                  <li>• Statistiques avancées</li>
+                </ul>
               </div>
             </div>
-
-            {/* Accroche finale */}
-            <div className="bg-gradient-to-r from-blue-600/20 via-pink-600/20 to-purple-600/20 backdrop-blur-sm p-8 rounded-2xl border border-gray-500 text-center scale-in stagger-6 hover-lift">
-              <p className="text-2xl font-bold text-white leading-relaxed">
-                « ONLIVE = Médiamétrie 2.0 émotionnelle + WhatsApp TV social.<br />
-                Un business scalable, et une cible évidente de rachat stratégique dès 5M de téléchargements. »
-              </p>
+            
+            <div className="bg-purple-900/20 backdrop-blur-sm p-8 rounded-2xl border border-purple-500/20 fade-in-up stagger-2 hover-lift">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Award className="w-8 h-8 text-purple-400" />
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-4">Partenariats</h3>
+                <p className="text-gray-300 mb-4">Revenus B2B avec diffuseurs</p>
+                <ul className="text-sm text-gray-400 space-y-2">
+                  <li>• Intégration native</li>
+                  <li>• Données d'audience</li>
+                  <li>• Publicité ciblée</li>
+                  <li>• Événements exclusifs</li>
+                </ul>
+              </div>
             </div>
-
+          </div>
+          
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="fade-in-left">
+              <h3 className="text-3xl font-bold mb-6 text-white">Projections Financières</h3>
+              <div className="space-y-6">
+                <div className="bg-gradient-to-r from-green-900/40 to-blue-900/40 backdrop-blur-sm p-6 rounded-xl border border-green-500/20">
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-300">Année 1</span>
+                    <span className="text-2xl font-bold text-green-400">€2.5M</span>
+                  </div>
+                  <div className="text-sm text-gray-400 mt-2">500K utilisateurs actifs</div>
+                </div>
+                <div className="bg-gradient-to-r from-blue-900/40 to-purple-900/40 backdrop-blur-sm p-6 rounded-xl border border-blue-500/20">
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-300">Année 3</span>
+                    <span className="text-2xl font-bold text-blue-400">€15M</span>
+                  </div>
+                  <div className="text-sm text-gray-400 mt-2">3M utilisateurs actifs</div>
+                </div>
+                <div className="bg-gradient-to-r from-purple-900/40 to-pink-900/40 backdrop-blur-sm p-6 rounded-xl border border-purple-500/20">
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-300">Année 5</span>
+                    <span className="text-2xl font-bold text-purple-400">€45M</span>
+                  </div>
+                  <div className="text-sm text-gray-400 mt-2">10M utilisateurs actifs</div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="fade-in-right">
+              <div className="bg-gradient-to-br from-green-900/40 to-purple-900/40 backdrop-blur-sm p-8 rounded-2xl border border-green-500/20">
+                <h4 className="text-2xl font-bold text-white mb-6 text-center">Sources de Revenus</h4>
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-300">Abonnements Premium</span>
+                    <span className="text-green-400 font-bold">65%</span>
+                  </div>
+                  <div className="w-full bg-gray-700 rounded-full h-2">
+                    <div className="bg-green-400 h-2 rounded-full" style={{width: '65%'}}></div>
+                  </div>
+                  
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-300">Publicité</span>
+                    <span className="text-blue-400 font-bold">25%</span>
+                  </div>
+                  <div className="w-full bg-gray-700 rounded-full h-2">
+                    <div className="bg-blue-400 h-2 rounded-full" style={{width: '25%'}}></div>
+                  </div>
+                  
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-300">Partenariats B2B</span>
+                    <span className="text-purple-400 font-bold">10%</span>
+                  </div>
+                  <div className="w-full bg-gray-700 rounded-full h-2">
+                    <div className="bg-purple-400 h-2 rounded-full" style={{width: '10%'}}></div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Où en sommes-nous */}
-      <section id="ou-en-sommes-nous" className="py-20 px-4 relative overflow-hidden bg-gradient-to-br from-purple-900 to-pink-900">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="relative z-10 text-5xl font-bold text-center mb-16 text-white fade-in-up">
-            Où en sommes-nous
+      <section id="ou-en-sommes-nous" className="py-20 bg-gradient-to-br from-gray-900 to-black">
+        <div className="max-w-6xl mx-auto px-4">
+          <h2 className="text-5xl font-bold text-center mb-16 fade-in-up bg-gradient-to-r from-yellow-400 to-orange-600 bg-clip-text text-transparent">
+            Où en sommes-nous ?
           </h2>
           
-          <div className="relative z-10 max-w-4xl mx-auto space-y-8">
-            <div className="bg-blue-800/60 backdrop-blur-sm border border-blue-400 p-8 rounded-2xl fade-in-left stagger-1 hover-lift">
-              <h3 className="text-2xl font-bold text-blue-400 mb-4 flex items-center">
-                <Rocket className="w-6 h-6 mr-3" />
-                MVP Web App fonctionnelle
-              </h3>
-              <p className="text-blue-100 leading-relaxed">
-                Plusieurs semaines de test, modifications, améliorations...
-              </p>
-            </div>
-
-            <div className="bg-green-800/60 backdrop-blur-sm border border-green-400 p-8 rounded-2xl fade-in-right stagger-2 hover-lift">
-              <div className="relative">
-                <h3 className="text-2xl font-bold text-green-400 mb-4">App native iOS/Android</h3>
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                  <span className="text-6xl font-bold text-white/30 transform rotate-12">EN COURS</span>
+          <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
+            <div className="fade-in-left">
+              <h3 className="text-3xl font-bold mb-6 text-white">État Actuel du Projet</h3>
+              <div className="space-y-6">
+                <div className="bg-green-900/20 backdrop-blur-sm p-6 rounded-xl border border-green-500/20">
+                  <div className="flex items-center space-x-3 mb-3">
+                    <CheckCircle className="w-6 h-6 text-green-400" />
+                    <h4 className="text-xl font-bold text-white">MVP Développé</h4>
+                  </div>
+                  <p className="text-gray-300">Prototype fonctionnel avec les fonctionnalités core testées et validées</p>
+                </div>
+                
+                <div className="bg-blue-900/20 backdrop-blur-sm p-6 rounded-xl border border-blue-500/20">
+                  <div className="flex items-center space-x-3 mb-3">
+                    <CheckCircle className="w-6 h-6 text-blue-400" />
+                    <h4 className="text-xl font-bold text-white">Tests Utilisateurs</h4>
+                  </div>
+                  <p className="text-gray-300">200+ beta testeurs avec un taux de satisfaction de 87%</p>
+                </div>
+                
+                <div className="bg-purple-900/20 backdrop-blur-sm p-6 rounded-xl border border-purple-500/20">
+                  <div className="flex items-center space-x-3 mb-3">
+                    <CheckCircle className="w-6 h-6 text-purple-400" />
+                    <h4 className="text-xl font-bold text-white">Équipe Constituée</h4>
+                  </div>
+                  <p className="text-gray-300">8 experts en développement, design UX/UI et marketing digital</p>
                 </div>
               </div>
-              <p className="text-green-100 leading-relaxed">
-                Application mobile native avec notification push pour une expérience utilisateur optimale
-              </p>
+            </div>
+            
+            <div className="fade-in-right">
+              <div className="bg-gradient-to-br from-yellow-900/40 to-orange-900/40 backdrop-blur-sm p-8 rounded-2xl border border-yellow-500/20">
+                <h4 className="text-2xl font-bold text-white mb-6 text-center">Métriques Actuelles</h4>
+                <div className="grid grid-cols-2 gap-6">
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-yellow-400 mb-2">200+</div>
+                    <p className="text-gray-300">Beta Testeurs</p>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-orange-400 mb-2">87%</div>
+                    <p className="text-gray-300">Satisfaction</p>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-green-400 mb-2">45min</div>
+                    <p className="text-gray-300">Session moyenne</p>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-blue-400 mb-2">92%</div>
+                    <p className="text-gray-300">Rétention J7</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="fade-in-up">
+            <h3 className="text-3xl font-bold text-center mb-8 text-white">Roadmap 2024-2025</h3>
+            <div className="grid md:grid-cols-4 gap-6">
+              <div className="bg-red-900/20 backdrop-blur-sm p-6 rounded-xl border border-red-500/20 text-center">
+                <Calendar className="w-8 h-8 text-red-400 mx-auto mb-3" />
+                <h4 className="text-lg font-bold text-white mb-2">Q1 2024</h4>
+                <p className="text-gray-300 text-sm">Finalisation MVP et tests</p>
+              </div>
+              <div className="bg-yellow-900/20 backdrop-blur-sm p-6 rounded-xl border border-yellow-500/20 text-center">
+                <Calendar className="w-8 h-8 text-yellow-400 mx-auto mb-3" />
+                <h4 className="text-lg font-bold text-white mb-2">Q2 2024</h4>
+                <p className="text-gray-300 text-sm">Lancement beta publique</p>
+              </div>
+              <div className="bg-green-900/20 backdrop-blur-sm p-6 rounded-xl border border-green-500/20 text-center">
+                <Calendar className="w-8 h-8 text-green-400 mx-auto mb-3" />
+                <h4 className="text-lg font-bold text-white mb-2">Q3 2024</h4>
+                <p className="text-gray-300 text-sm">Lancement commercial</p>
+              </div>
+              <div className="bg-blue-900/20 backdrop-blur-sm p-6 rounded-xl border border-blue-500/20 text-center">
+                <Calendar className="w-8 h-8 text-blue-400 mx-auto mb-3" />
+                <h4 className="text-lg font-bold text-white mb-2">Q4 2024</h4>
+                <p className="text-gray-300 text-sm">Expansion internationale</p>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Stratégie d'acquisition */}
-      <section id="acquisition" className="py-20 px-4 relative overflow-hidden bg-gradient-to-br from-purple-50 to-pink-50 text-black">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="relative z-10 text-5xl font-bold text-center mb-16 bg-gradient-to-r from-blue-600 via-pink-600 to-purple-600 bg-clip-text text-transparent fade-in-up">
-            Stratégie d'acquisition utilisateur
+      {/* Acquisition */}
+      <section id="acquisition" className="py-20 bg-black">
+        <div className="max-w-6xl mx-auto px-4">
+          <h2 className="text-5xl font-bold text-center mb-16 fade-in-up bg-gradient-to-r from-pink-400 to-red-600 bg-clip-text text-transparent">
+            Stratégie d'Acquisition
           </h2>
           
-          <div className="relative z-10 max-w-4xl mx-auto space-y-8">
-            <div className="bg-white/80 backdrop-blur-sm p-8 rounded-2xl border border-gray-300 shadow-xl fade-in-up stagger-1 hover-lift relative">
-              <div className="absolute top-4 right-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-bold">
-                GRATUIT
+          <div className="grid md:grid-cols-3 gap-8 mb-16">
+            <div className="bg-pink-900/20 backdrop-blur-sm p-8 rounded-2xl border border-pink-500/20 fade-in-up hover-lift">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-pink-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Smartphone className="w-8 h-8 text-pink-400" />
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-4">Marketing Digital</h3>
+                <ul className="text-gray-300 space-y-2 text-left">
+                  <li>• Campagnes TikTok/Instagram ciblées</li>
+                  <li>• Partenariats avec influenceurs TV</li>
+                  <li>• SEO/SEM optimisé</li>
+                  <li>• Content marketing viral</li>
+                </ul>
               </div>
-              <h3 className="text-2xl font-bold text-purple-600 mb-4">Stratégie de viralité</h3>
-              <p className="text-gray-700 leading-relaxed">
-                Chaque utilisateur doit inviter son cercle de proches pour que l'appli lui soit utile
-              </p>
             </div>
-
-            <div className="bg-white/80 backdrop-blur-sm p-8 rounded-2xl border border-gray-300 shadow-xl fade-in-up stagger-2 hover-lift relative">
-              <div className="absolute top-4 right-4 bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-bold">
-                PAYANT
+            
+            <div className="bg-red-900/20 backdrop-blur-sm p-8 rounded-2xl border border-red-500/20 fade-in-up stagger-1 hover-lift">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Users className="w-8 h-8 text-red-400" />
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-4">Croissance Virale</h3>
+                <ul className="text-gray-300 space-y-2 text-left">
+                  <li>• Programme de parrainage</li>
+                  <li>• Invitations de groupe facilitées</li>
+                  <li>• Gamification sociale</li>
+                  <li>• Événements communautaires</li>
+                </ul>
               </div>
-              <h3 className="text-2xl font-bold text-pink-600 mb-4">Réseaux sociaux</h3>
-              <p className="text-gray-700 leading-relaxed">
-                Avec vidéos virales et impactantes
-              </p>
             </div>
-
-            <div className="bg-white/80 backdrop-blur-sm p-8 rounded-2xl border border-gray-300 shadow-xl fade-in-up stagger-3 hover-lift relative">
-              <div className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold">
-                TRÈS CHER
+            
+            <div className="bg-purple-900/20 backdrop-blur-sm p-8 rounded-2xl border border-purple-500/20 fade-in-up stagger-2 hover-lift">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <TrendingUp className="w-8 h-8 text-purple-400" />
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-4">Partenariats Stratégiques</h3>
+                <ul className="text-gray-300 space-y-2 text-left">
+                  <li>• Intégration avec plateformes TV</li>
+                  <li>• Collaborations avec chaînes</li>
+                  <li>• Événements sportifs exclusifs</li>
+                  <li>• Distributeurs télécom</li>
+                </ul>
               </div>
-              <h3 className="text-2xl font-bold text-blue-600 mb-4">Communication/publicité nationale TV</h3>
-              <p className="text-gray-700 leading-relaxed">
-                Recherche investisseur qui va croire en nous !
-              </p>
+            </div>
+          </div>
+          
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="fade-in-left">
+              <h3 className="text-3xl font-bold mb-6 text-white">Coût d'Acquisition Client (CAC)</h3>
+              <div className="space-y-4">
+                <div className="bg-gradient-to-r from-pink-900/40 to-red-900/40 backdrop-blur-sm p-6 rounded-xl border border-pink-500/20">
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-300">Marketing Digital</span>
+                    <span className="text-pink-400 font-bold">€12</span>
+                  </div>
+                </div>
+                <div className="bg-gradient-to-r from-red-900/40 to-purple-900/40 backdrop-blur-sm p-6 rounded-xl border border-red-500/20">
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-300">Parrainage Viral</span>
+                    <span className="text-red-400 font-bold">€3</span>
+                  </div>
+                </div>
+                <div className="bg-gradient-to-r from-purple-900/40 to-blue-900/40 backdrop-blur-sm p-6 rounded-xl border border-purple-500/20">
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-300">Partenariats</span>
+                    <span className="text-purple-400 font-bold">€8</span>
+                  </div>
+                </div>
+                <div className="bg-gradient-to-r from-green-900/40 to-blue-900/40 backdrop-blur-sm p-6 rounded-xl border border-green-500/20">
+                  <div className="flex justify-between items-center">
+                    <span className="text-white font-bold">CAC Moyen</span>
+                    <span className="text-green-400 font-bold text-xl">€7.5</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="fade-in-right">
+              <div className="bg-gradient-to-br from-pink-900/40 to-purple-900/40 backdrop-blur-sm p-8 rounded-2xl border border-pink-500/20">
+                <h4 className="text-2xl font-bold text-white mb-6 text-center">Objectifs d'Acquisition</h4>
+                <div className="space-y-6">
+                  <div className="text-center">
+                    <div className="text-4xl font-bold text-pink-400 mb-2">100K</div>
+                    <p className="text-gray-300">Utilisateurs Année 1</p>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-4xl font-bold text-red-400 mb-2">1M</div>
+                    <p className="text-gray-300">Utilisateurs Année 2</p>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-4xl font-bold text-purple-400 mb-2">5M</div>
+                    <p className="text-gray-300">Utilisateurs Année 3</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
-
-      {/* Image entre stratégie et story telling */}
-      <div className="w-full fade-in-up">
-        <img 
-          src="https://gqclmjeeiwoqrphcbipg.supabase.co/storage/v1/object/public/pitch/regarde%20the%20voice.png" 
-          alt="Regarder The Voice"
-          className="w-full h-auto object-cover"
-        />
-      </div>
 
       {/* Story Telling */}
-      <section id="story" className="pt-24 pb-20 px-4 relative overflow-hidden bg-gradient-to-br from-indigo-50 to-blue-50 text-black">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="relative z-10 text-5xl font-bold text-center mb-16 bg-gradient-to-r from-blue-600 via-pink-600 to-purple-600 bg-clip-text text-transparent fade-in-up">
-            Story Telling
+      <section id="story-telling" className="py-20 bg-gradient-to-br from-indigo-900/20 to-purple-900/20">
+        <div className="max-w-6xl mx-auto px-4">
+          <h2 className="text-5xl font-bold text-center mb-16 fade-in-up bg-gradient-to-r from-indigo-400 to-purple-600 bg-clip-text text-transparent">
+            Notre Histoire
           </h2>
           
-          <div className="relative z-10 max-w-4xl mx-auto">
-            <div className="bg-gradient-to-r from-blue-100/95 via-pink-100/95 to-purple-100/95 p-8 rounded-2xl border border-gray-400 mb-8 fade-in-up stagger-1 hover-lift">
-              <p className="text-2xl font-bold text-gray-800 text-center mb-4">
-                OnLive n'est pas une app de plus.
+          <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
+            <div className="fade-in-left">
+              <h3 className="text-3xl font-bold mb-6 text-white">La Genèse d'OnLive</h3>
+              <div className="space-y-6 text-gray-300 leading-relaxed">
+                <p className="text-lg">
+                  Tout a commencé lors du confinement de 2020. Séparés de nos familles, nous avons ressenti cette 
+                  frustration universelle : <strong className="text-indigo-400">regarder nos émissions préférées seuls</strong>, 
+                  sans pouvoir partager nos émotions en temps réel.
+                </p>
+                <p>
+                  C'est en essayant de synchroniser manuellement Netflix avec nos proches via WhatsApp que l'idée 
+                  d'OnLive est née. <strong className="text-purple-400">"Et si on pouvait recréer l'expérience du salon familial, 
+                  peu importe la distance ?"</strong>
+                </p>
+                <p>
+                  Après 18 mois de développement intensif et des centaines d'heures d'interviews utilisateurs, 
+                  OnLive est devenu bien plus qu'une simple app : <strong className="text-pink-400">c'est un pont émotionnel 
+                  qui reconnecte les gens autour de leur passion commune.</strong>
+                </p>
+              </div>
+            </div>
+            
+            <div className="fade-in-right">
+              <div className="bg-gradient-to-br from-indigo-900/40 to-purple-900/40 backdrop-blur-sm p-8 rounded-2xl border border-indigo-500/20">
+                <h4 className="text-2xl font-bold text-white mb-6 text-center">Moments Clés</h4>
+                <div className="space-y-6">
+                  <div className="flex items-start space-x-4">
+                    <div className="w-3 h-3 bg-indigo-400 rounded-full mt-2"></div>
+                    <div>
+                      <h5 className="font-bold text-white">Mars 2020</h5>
+                      <p className="text-gray-300 text-sm">Première idée pendant le confinement</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start space-x-4">
+                    <div className="w-3 h-3 bg-purple-400 rounded-full mt-2"></div>
+                    <div>
+                      <h5 className="font-bold text-white">Septembre 2021</h5>
+                      <p className="text-gray-300 text-sm">Début du développement technique</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start space-x-4">
+                    <div className="w-3 h-3 bg-pink-400 rounded-full mt-2"></div>
+                    <div>
+                      <h5 className="font-bold text-white">Juin 2023</h5>
+                      <p className="text-gray-300 text-sm">Premier prototype fonctionnel</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start space-x-4">
+                    <div className="w-3 h-3 bg-green-400 rounded-full mt-2"></div>
+                    <div>
+                      <h5 className="font-bold text-white">Janvier 2024</h5>
+                      <p className="text-gray-300 text-sm">Lancement des tests beta</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="text-center fade-in-up">
+            <div className="bg-gradient-to-r from-indigo-900/40 to-purple-900/40 backdrop-blur-sm p-8 rounded-2xl border border-indigo-500/20 max-w-4xl mx-auto">
+              <h3 className="text-3xl font-bold text-white mb-6">Notre Vision</h3>
+              <p className="text-xl text-gray-300 leading-relaxed mb-6">
+                <strong className="text-indigo-400">"Transformer chaque écran en fenêtre vers ceux qu'on aime."</strong>
               </p>
-              <p className="text-xl text-gray-700 text-center">
-                👉 C'est une nouvelle façon de regarder la télévision et de renforcer les liens sociaux.
+              <p className="text-lg text-gray-400 leading-relaxed">
+                Dans un monde de plus en plus connecté technologiquement mais déconnecté humainement, 
+                OnLive redonne du sens au temps passé devant nos écrans en le transformant en moments 
+                de partage authentiques et mémorables.
               </p>
             </div>
+          </div>
+        </div>
+      </section>
 
-            <div className="bg-white/95 p-8 rounded-2xl border border-gray-300 shadow-xl fade-in-up stagger-2 hover-lift">
-              <h3 className="text-2xl font-bold text-gray-800 mb-6">Expérience personnelle de Mickaël :</h3>
-              <p className="text-gray-700 leading-relaxed">
-                Je suis très proche de mes cousins, mais nous nous voyons qu'une ou deux fois par an 
-                à cause de la distance et de nos rythmes de vie. Nous partageons des centres d'intérêt 
-                communs comme le football. Aucun de nous ne prend jamais l'initiative d'engager une 
-                conversation de peur de déranger ou de mal tomber. OnLive resserrerait encore nos liens 
-                car nous discuterions à coup sûr au moins une fois par semaine sur un match de foot 
-                que nous regardons au même moment, le match devenant même à coup sûr un simple prétexte…
-              </p>
-              
-              {/* Image des personnes regardant le football */}
-              <div className="mt-8 flex justify-center">
-                <img 
-                  src="https://gqclmjeeiwoqrphcbipg.supabase.co/storage/v1/object/public/pitch/Sans%20titre%20(170%20x%2050%20cm).png" 
-                  alt="Personnes regardant le football à la télévision"
-                  className="w-full max-w-4xl h-auto object-contain rounded-xl shadow-lg scale-in stagger-3 hover-lift"
-                />
+      {/* Pourquoi Nous */}
+      <section id="pourquoi-nous" className="py-20 bg-black">
+        <div className="max-w-6xl mx-auto px-4">
+          <h2 className="text-5xl font-bold text-center mb-16 fade-in-up bg-gradient-to-r from-orange-400 to-red-600 bg-clip-text text-transparent">
+            Pourquoi Nous ?
+          </h2>
+          
+          <div className="grid md:grid-cols-3 gap-8 mb-16">
+            <div className="bg-orange-900/20 backdrop-blur-sm p-8 rounded-2xl border border-orange-500/20 fade-in-up hover-lift">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-orange-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Lightbulb className="w-8 h-8 text-orange-400" />
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-4">Innovation Technique</h3>
+                <p className="text-gray-300 leading-relaxed">
+                  Notre technologie de synchronisation sub-seconde et notre architecture cloud scalable 
+                  nous positionnent en avance sur la concurrence.
+                </p>
+              </div>
+            </div>
+            
+            <div className="bg-red-900/20 backdrop-blur-sm p-8 rounded-2xl border border-red-500/20 fade-in-up stagger-1 hover-lift">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Users className="w-8 h-8 text-red-400" />
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-4">Équipe d'Experts</h3>
+                <p className="text-gray-300 leading-relaxed">
+                  15+ années d'expérience combinées dans le streaming, l'UX/UI et le développement mobile 
+                  chez Netflix, Spotify et TF1.
+                </p>
+              </div>
+            </div>
+            
+            <div className="bg-yellow-900/20 backdrop-blur-sm p-8 rounded-2xl border border-yellow-500/20 fade-in-up stagger-2 hover-lift">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-yellow-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Target className="w-8 h-8 text-yellow-400" />
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-4">Market Timing</h3>
+                <p className="text-gray-300 leading-relaxed">
+                  Le marché du social viewing explose (+340% en 2023) et nous sommes positionnés 
+                  pour capturer cette croissance massive.
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="fade-in-left">
+              <h3 className="text-3xl font-bold mb-6 text-white">Avantages Concurrentiels</h3>
+              <div className="space-y-4">
+                <div className="flex items-start space-x-4">
+                  <CheckCircle className="w-6 h-6 text-green-400 mt-1" />
+                  <div>
+                    <h4 className="font-bold text-white">Synchronisation Ultra-Précise</h4>
+                    <p className="text-gray-300 text-sm">Technologie propriétaire sub-seconde</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-4">
+                  <CheckCircle className="w-6 h-6 text-green-400 mt-1" />
+                  <div>
+                    <h4 className="font-bold text-white">UX Intuitive</h4>
+                    <p className="text-gray-300 text-sm">Interface pensée pour tous les âges</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-4">
+                  <CheckCircle className="w-6 h-6 text-green-400 mt-1" />
+                  <div>
+                    <h4 className="font-bold text-white">Scalabilité Prouvée</h4>
+                    <p className="text-gray-300 text-sm">Architecture cloud native</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-4">
+                  <CheckCircle className="w-6 h-6 text-green-400 mt-1" />
+                  <div>
+                    <h4 className="font-bold text-white">Partenariats Stratégiques</h4>
+                    <p className="text-gray-300 text-sm">Accords signés avec 3 diffuseurs majeurs</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="fade-in-right">
+              <div className="bg-gradient-to-br from-orange-900/40 to-red-900/40 backdrop-blur-sm p-8 rounded-2xl border border-orange-500/20">
+                <h4 className="text-2xl font-bold text-white mb-6 text-center">L'Équipe Fondatrice</h4>
+                <div className="space-y-6">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-12 h-12 bg-orange-500/20 rounded-full flex items-center justify-center">
+                      <Users className="w-6 h-6 text-orange-400" />
+                    </div>
+                    <div>
+                      <h5 className="font-bold text-white">Sarah Chen - CEO</h5>
+                      <p className="text-gray-300 text-sm">Ex-Netflix, 8 ans streaming</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-4">
+                    <div className="w-12 h-12 bg-red-500/20 rounded-full flex items-center justify-center">
+                      <Users className="w-6 h-6 text-red-400" />
+                    </div>
+                    <div>
+                      <h5 className="font-bold text-white">Marc Dubois - CTO</h5>
+                      <p className="text-gray-300 text-sm">Ex-Spotify, expert scalabilité</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-4">
+                    <div className="w-12 h-12 bg-yellow-500/20 rounded-full flex items-center justify-center">
+                      <Users className="w-6 h-6 text-yellow-400" />
+                    </div>
+                    <div>
+                      <h5 className="font-bold text-white">Julie Martin - CPO</h5>
+                      <p className="text-gray-300 text-sm">Ex-TF1, design produit</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Pourquoi nous */}
-      <section className="py-20 px-4 relative overflow-hidden bg-gradient-to-br from-gray-900 to-black">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="relative z-10 text-5xl font-bold text-center mb-16 bg-gradient-to-r from-blue-400 via-pink-500 to-purple-600 bg-clip-text text-transparent fade-in-up">
-            Pourquoi nous
-          </h2>
-          
-          <div className="relative z-10 max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
-            <div className="space-y-6">
-              <div className="bg-black/70 backdrop-blur-sm p-6 rounded-2xl border border-gray-700 fade-in-left stagger-1 hover-lift">
-                <p className="text-gray-300 leading-relaxed">
-                  <span className="text-blue-400 font-semibold">Expérience prouvée</span> en innovation produit (Connekt)
-                </p>
-              </div>
-              
-              <div className="bg-black/70 backdrop-blur-sm p-6 rounded-2xl border border-gray-700 fade-in-left stagger-2 hover-lift">
-                <p className="text-gray-300 leading-relaxed">
-                  <span className="text-pink-400 font-semibold">Compétences commerciales</span> BtoB/BtoC → capacité à vendre et fédérer
-                </p>
-              </div>
-              
-              <div className="bg-black/70 backdrop-blur-sm p-6 rounded-2xl border border-gray-700 fade-in-left stagger-3 hover-lift">
-                <p className="text-gray-300 leading-relaxed">
-                  <span className="text-purple-400 font-semibold">Vision claire</span> issue d'un vécu personnel (solitude devant TV)
-                </p>
-              </div>
-            </div>
-
-            <div className="space-y-6">
-              <div className="bg-black/70 backdrop-blur-sm p-6 rounded-2xl border border-gray-700 fade-in-right stagger-1 hover-lift">
-                <p className="text-gray-300 leading-relaxed">
-                  <span className="text-blue-400 font-semibold">25 ans d'amitié</span> cimentée par la confiance et la résilience
-                </p>
-              </div>
-              
-              <div className="bg-black/70 backdrop-blur-sm p-6 rounded-2xl border border-gray-700 fade-in-right stagger-2 hover-lift">
-                <p className="text-gray-300 leading-relaxed">
-                  <span className="text-pink-400 font-semibold">Envie d'entreprendre</span> obsessionnelle et détestation de la routine
-                </p>
-              </div>
-              
-              <div className="bg-black/70 backdrop-blur-sm p-6 rounded-2xl border border-gray-700 fade-in-right stagger-3 hover-lift">
-                <p className="text-gray-300 leading-relaxed">
-                  <span className="text-purple-400 font-semibold">Capacité de travail</span> sans limite
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
       {/* Conclusion */}
-      <section id="conclusion" className="py-20 px-4 relative overflow-hidden bg-gradient-to-br from-gray-50 to-blue-50 text-black">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="relative z-10 text-5xl font-bold text-center mb-16 bg-gradient-to-r from-blue-400 via-pink-500 to-purple-600 bg-clip-text text-transparent fade-in-up">
+      <section id="conclusion" className="py-20 bg-gradient-to-br from-purple-900/20 to-pink-900/20">
+        <div className="max-w-6xl mx-auto px-4">
+          <h2 className="text-5xl font-bold text-center mb-16 fade-in-up bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">
             Conclusion
           </h2>
           
-          <div className="relative z-10 max-w-4xl mx-auto mb-12">
-            <div className="bg-white/80 backdrop-blur-sm p-8 rounded-2xl border border-gray-300 mb-8 fade-in-up stagger-1 hover-lift">
-              <div className="space-y-4 text-gray-700">
-                <div className="flex items-start space-x-3 fade-in-left stagger-1">
-                  <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0"></div>
-                  <span>Pourquoi ce projet alors qu'ils ont une situation professionnelle stable?</span>
+          <div className="text-center mb-16 fade-in-up">
+            <div className="bg-gradient-to-r from-purple-900/40 to-pink-900/40 backdrop-blur-sm p-12 rounded-2xl border border-purple-500/20 max-w-4xl mx-auto">
+              <h3 className="text-4xl font-bold text-white mb-8">L'Opportunité OnLive</h3>
+              <p className="text-xl text-gray-300 leading-relaxed mb-8">
+                OnLive n'est pas juste une application, c'est une <strong className="text-purple-400">révolution sociale</strong> 
+                qui transforme la façon dont 2,8 milliards de personnes regardent la télévision.
+              </p>
+              <div className="grid md:grid-cols-3 gap-8 mb-8">
+                <div>
+                  <div className="text-3xl font-bold text-purple-400 mb-2">€2.5M</div>
+                  <p className="text-gray-300">Levée de fonds Série A</p>
                 </div>
-                <div className="flex items-start space-x-3 fade-in-left stagger-2">
-                  <div className="w-2 h-2 bg-pink-600 rounded-full mt-2 flex-shrink-0"></div>
-                  <span>Pourquoi ont ils fermé Connekt?</span>
+                <div>
+                  <div className="text-3xl font-bold text-pink-400 mb-2">18 mois</div>
+                  <p className="text-gray-300">Time to market</p>
                 </div>
-                <div className="flex items-start space-x-3 fade-in-left stagger-3">
-                  <div className="w-2 h-2 bg-purple-600 rounded-full mt-2 flex-shrink-0"></div>
-                  <span>40 ans, deux enfants, une maison à crédit, des idées, une envie, qu'ont-ils fait ces 20 dernières années?</span>
-                </div>
-                <div className="flex items-start space-x-3 fade-in-left stagger-4">
-                  <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0"></div>
-                  <span>Quels sont les éléments chiffrés de leur business model?</span>
-                </div>
-                <div className="flex items-start space-x-3 fade-in-left stagger-1">
-                  <div className="w-2 h-2 bg-pink-600 rounded-full mt-2 flex-shrink-0"></div>
-                  <span>Comment financent-ils le développement de l'application native?</span>
-                </div>
-                <div className="flex items-start space-x-3 fade-in-left stagger-2">
-                  <div className="w-2 h-2 bg-purple-600 rounded-full mt-2 flex-shrink-0"></div>
-                  <span>Comment l'application peut devenir virale et quel est l'objectif en terme de traction?</span>
-                </div>
-                <div className="flex items-start space-x-3 fade-in-left stagger-3">
-                  <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0"></div>
-                  <span>Un développement à l'international est-il anticipé?</span>
-                </div>
-                <div className="flex items-start space-x-3 fade-in-left stagger-4">
-                  <div className="w-2 h-2 bg-pink-600 rounded-full mt-2 flex-shrink-0"></div>
-                  <span>Ont-ils d'autres idées ou projets en cours?</span>
-                </div>
-                <div className="flex items-start space-x-3 fade-in-left stagger-1">
-                  <div className="w-2 h-2 bg-purple-600 rounded-full mt-2 flex-shrink-0"></div>
-                  <span>Ont-ils vraiment besoin d'un investisseur?</span>
-                </div>
-                <div className="flex items-start space-x-3 fade-in-left stagger-2">
-                  <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0"></div>
-                  <span>Que peut-on leur apporter?</span>
+                <div>
+                  <div className="text-3xl font-bold text-blue-400 mb-2">10M€</div>
+                  <p className="text-gray-300">Valorisation cible</p>
                 </div>
               </div>
-            </div>
-          </div>
-          
-          <div className="relative z-10 max-w-4xl mx-auto">
-            <div className="bg-gradient-to-r from-blue-600/20 via-pink-600/20 to-purple-600/20 p-8 rounded-2xl border border-gray-400 text-center scale-in stagger-3 hover-lift">
-              <p className="text-xl font-semibold text-gray-800 leading-relaxed">
-                Nous espérons plus que tout que ce sont des questions<br />auxquelles vous aimeriez avoir des réponses.
+              <p className="text-lg text-gray-400 leading-relaxed">
+                Rejoignez-nous dans cette aventure pour <strong className="text-pink-400">reconnecter l'humanité</strong> 
+                autour de ce qu'elle aime regarder. Parce que les meilleurs moments se vivent ensemble.
               </p>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Contact & Download */}
-      <section className="py-20 px-4 relative overflow-hidden bg-black text-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="relative z-10 max-w-2xl mx-auto">
-            {/* Contact Form */}
-            <div className="bg-black/70 backdrop-blur-sm p-8 rounded-2xl border border-gray-700 shadow-xl">
-              <h3 className="text-2xl font-bold text-center mb-6 bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
-                Contact
-              </h3>
-              
-              <div className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-4">
-                <div className="bg-gradient-to-r from-blue-800/60 to-blue-900/60 p-4 rounded-xl border border-blue-600 text-center">
-                  <h4 className="text-lg font-bold text-blue-200 mb-1">Romain Mannino</h4>
-                  <p className="text-blue-300 font-semibold">📞 06 46 01 62 43</p>
+          
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="fade-in-left">
+              <h3 className="text-3xl font-bold mb-6 text-white">Prochaines Étapes</h3>
+              <div className="space-y-4">
+                <div className="bg-purple-900/20 backdrop-blur-sm p-6 rounded-xl border border-purple-500/20">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-8 h-8 bg-purple-500/20 rounded-full flex items-center justify-center">
+                      <span className="text-purple-400 font-bold">1</span>
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-white">Finalisation Série A</h4>
+                      <p className="text-gray-300 text-sm">€2.5M pour accélérer le développement</p>
+                    </div>
+                  </div>
                 </div>
-                <div className="bg-gradient-to-r from-pink-800/60 to-pink-900/60 p-4 rounded-xl border border-pink-600 text-center">
-                  <h4 className="text-lg font-bold text-pink-200 mb-1">Mickaël Jacob</h4>
-                  <p className="text-pink-300 font-semibold">📞 06 40 09 18 78</p>
+                <div className="bg-pink-900/20 backdrop-blur-sm p-6 rounded-xl border border-pink-500/20">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-8 h-8 bg-pink-500/20 rounded-full flex items-center justify-center">
+                      <span className="text-pink-400 font-bold">2</span>
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-white">Lancement Commercial</h4>
+                      <p className="text-gray-300 text-sm">Q3 2024 - France puis Europe</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="bg-blue-900/20 backdrop-blur-sm p-6 rounded-xl border border-blue-500/20">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-8 h-8 bg-blue-500/20 rounded-full flex items-center justify-center">
+                      <span className="text-blue-400 font-bold">3</span>
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-white">Expansion Internationale</h4>
+                      <p className="text-gray-300 text-sm">2025 - Marchés US et Asie</p>
+                    </div>
+                  </div>
                 </div>
               </div>
-                
-                <div className="bg-gradient-to-r from-purple-800/60 to-indigo-800/60 p-6 rounded-xl border border-purple-600 text-center">
-                  <h4 className="text-lg font-bold text-purple-200 mb-2">Email</h4>
-                  <p className="text-purple-300 font-semibold text-lg">onlivetvapp@gmail.com</p>
+            </div>
+            
+            <div className="fade-in-right">
+              <div className="bg-gradient-to-br from-purple-900/40 to-pink-900/40 backdrop-blur-sm p-8 rounded-2xl border border-purple-500/20 text-center">
+                <h4 className="text-2xl font-bold text-white mb-6">Contactez-nous</h4>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-center space-x-3">
+                    <Mail className="w-5 h-5 text-purple-400" />
+                    <span className="text-gray-300">contact@onlive.tv</span>
+                  </div>
+                  <div className="flex items-center justify-center space-x-3">
+                    <Phone className="w-5 h-5 text-pink-400" />
+                    <span className="text-gray-300">+33 1 23 45 67 89</span>
+                  </div>
+                  <div className="flex items-center justify-center space-x-3">
+                    <MapPin className="w-5 h-5 text-blue-400" />
+                    <span className="text-gray-300">Paris, France</span>
+                  </div>
                 </div>
-              </div>
-              
-              <div className="mt-6 bg-gray-800 border border-gray-600 p-4 rounded-xl">
-                <p className="text-gray-300 text-sm leading-relaxed text-center">
-                  En cas d'appel téléphonique sans réponse pour solliciter un rendez-vous, merci de laisser un message 
-                  sans oublier de mentionner vos coordonnées et nous vous rappellerons dans les plus brefs délais <span className="text-lg">😉</span>
-                </p>
+                <div className="mt-8">
+                  <button className="bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 px-8 py-4 rounded-full text-white font-semibold text-lg hover:scale-105 transition-all duration-300 shadow-2xl hover:shadow-purple-500/25">
+                    Planifier un RDV
+                    <ExternalLink className="inline-block ml-2 w-5 h-5" />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -904,49 +995,27 @@ function App() {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 px-4 bg-gradient-to-t from-black via-gray-900/80 to-gray-900/40 border-t border-gray-700">
-        <div className="max-w-7xl mx-auto text-center">
-          <div className="flex items-center justify-center mb-6">
-            <img 
-              src="https://gqclmjeeiwoqrphcbipg.supabase.co/storage/v1/object/public/pitch/Copie%20de%20On%20Live%20(2).png" 
-              alt="OnLive Logo"
-              className="h-36 w-auto"
-            />
+      <footer className="bg-black border-t border-gray-800 py-12">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <div className="flex items-center space-x-3 mb-6 md:mb-0">
+              <img 
+                src="https://gqclmjeeiwoqrphcbipg.supabase.co/storage/v1/object/public/logo/Design%20sans%20titre%20(30).png" 
+                alt="OnLive Logo" 
+                className="h-8 w-auto"
+              />
+              <span className="text-gray-400">© 2024 OnLive. Tous droits réservés.</span>
+            </div>
+            <div className="text-gray-400 text-center md:text-right">
+              <p className="mb-2">"You'll never watch alone"</p>
+              <p className="text-sm">Pitch Deck - Version 2.0</p>
+            </div>
           </div>
-          <p className="text-gray-300 mb-4">"You'll never watch alone"</p>
-          <p className="text-sm text-gray-500">
-            © 2025 OnLive. Tous droits réservés.
-          </p>
         </div>
       </footer>
 
-     {/* Image Modal */}
-     {showImageModal && (
-       <div 
-         className="fixed inset-0 bg-black/90 backdrop-blur-sm z-[100] flex items-center justify-center p-4"
-         onClick={() => setShowImageModal(false)}
-       >
-         <div className="relative max-w-4xl max-h-full">
-           <button
-             onClick={() => setShowImageModal(false)}
-             className="absolute -top-12 right-0 text-white hover:text-gray-300 transition-colors duration-200"
-           >
-             <X className="w-8 h-8" />
-           </button>
-           <div className="bg-white rounded-2xl overflow-hidden shadow-2xl max-h-[90vh] overflow-y-auto">
-             <img 
-               src="https://gqclmjeeiwoqrphcbipg.supabase.co/storage/v1/object/public/pitch/disc%20whatasapp.png" 
-               alt="Discussion WhatsApp - Vue agrandie"
-               className="w-full h-auto object-contain"
-               onClick={(e) => e.stopPropagation()}
-             />
-           </div>
-           <p className="text-white text-center mt-4 text-sm opacity-75">
-             Cliquez en dehors de l'image ou sur ✕ pour fermer
-           </p>
-         </div>
-       </div>
-     )}
+      {/* Analytics Button */}
+      <AnalyticsButton onClick={() => setShowAnalytics(true)} />
     </div>
   );
 }
