@@ -505,7 +505,7 @@ function App() {
               <div className="flex justify-center lg:justify-center items-center blur-to-focus stagger-4">
                 <div className="w-full max-w-xl lg:max-w-2xl">
                   <img 
-                    src="https://gqclmjeeiwoqrphcbipg.supabase.co/storage/v1/object/public/pitch/app%20onlive.png" 
+                    src="https://gqclmjeeiwoqrphcbipg.supabase.co/storage/v1/object/public/logo/ONLIVE%20TV%20HOME%202.png"
                     alt="Application OnLive"
                     className="w-full h-auto object-contain drop-shadow-2xl hover:scale-105 transition-all duration-500 hover-lift"
                   />
