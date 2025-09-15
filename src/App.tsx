@@ -189,13 +189,6 @@ function App() {
           <h1 className="text-6xl md:text-7xl font-bold text-white mb-8 pt-20 bg-gradient-to-r from-blue-400 via-pink-500 to-purple-600 bg-clip-text text-transparent fade-in-up text-reveal">
             PITCH DECK
           </h1>
-          <div className="flex items-center justify-center mb-8 scale-in stagger-1">
-            <img 
-              src="https://gqclmjeeiwoqrphcbipg.supabase.co/storage/v1/object/public/pitch/Copie%20de%20On%20Live%20(2).png" 
-              alt="OnLive Logo"
-              className="h-64 md:h-80 w-auto hover-lift"
-            />
-          </div>
           <p className="text-4xl md:text-5xl font-light text-gray-300 mb-12 fade-in-up stagger-2">
             "You'll never watch alone"
           </p>
